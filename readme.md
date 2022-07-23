@@ -29,8 +29,16 @@
 #approach
 
 <ol>
+    <li>Have the option to choose one or two players</li>
+        <ul>
+            <li>buttons for one player (vs CPU) and two players</li>
+            <li>if "Versus CPU" is clicked, load the board with computer as opponent</li>
+            <li>else, load the board for two players</li>
+        </ul>
+    </li>
     <li>Prepare the Connect Four board</li>
     <ul>
+        <li>load board into DOM to display</li>
         <li>initialize empty array</li>
         <li>track board in game object</li>
     </ul>
@@ -46,6 +54,7 @@
     <li>Take turns by dropping player chip into a column on the grid</li>
     <ul>
         <li>push player chip into an index of the board array</li>
+        <li>integrate DOM so that the chip is pushed into the column on click</li>
     </ul>
     <li>Prevent player from dropping a chip into a totally filled column</li>
     <ul>
@@ -68,13 +77,7 @@
         <li>button to restart game</li>
         <li>build button dynamically with javascript</li>
     </ul>
-    <li>Have the option to choose single player or multiplayer</li>
-    <ul>
-        <li>buttons for single player and multiplayer</li>
-        <li>if single player is clicked, load the board with computer as opponent</li>
-        <li>else, load the board for multiplayer</li>
-    </ul>
-    <li>Set opponent as computer, label as "Computer"</li>
+    <li>(For multiplayer) Set opponent as computer, label as "Computer"</li>
     <ul>
         <li>store computer into player array</li>
         <li>display as "Computer" with DOM in browser</li>
