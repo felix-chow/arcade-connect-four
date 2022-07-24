@@ -38,16 +38,16 @@
             <li>else, load the board for two players</li>
         </ul>
     </li>
+    <li>Enter the player names and have them displayed</li>
+    <ul>
+        <li>store player names in an array</li>
+        <li>display names via DOM</li>
+    </ul>
     <li>Prepare the Connect Four board</li>
     <ul>
         <li>load board into DOM to display</li>
         <li>initialize empty array</li>
         <li>track board in game object</li>
-    </ul>
-    <li>Enter the player names and have them displayed</li>
-    <ul>
-        <li>store player names in an array</li>
-        <li>display names via DOM</li>
     </ul>
     <li>Have game choose which player goes first</li>
     <ul>
