@@ -24,6 +24,9 @@ const gameState = {
 
 function getPlayerNames() {
 
+  vsCPU.remove();
+  twoPlayers.remove();
+
   const currentPlayer = document.querySelector(".current-player");
   const newPlayer = document.createTextNode("Please enter your name: ");
   currentPlayer.appendChild(newPlayer);
@@ -33,17 +36,21 @@ function getPlayerNames() {
 
   const submitButton = document.createElement("input");
   submitButton.setAttribute("type", "submit");
-  const backButton = document.createElement("input");
-  backButton.setAttribute("type", "submit");
-
+  
   currentPlayer.appendChild(input);
   currentPlayer.appendChild(submitButton);
 
+  submitButton.addEventListener("click", )
+
+  console.log(input.querySelector("#name").value);
+
+
+  // const backButton = document.createElement("input");
+  // backButton.setAttribute("type", "submit");
   // currentPlayer.appendChild(backButton);
   // backButton.addEventListener("click", mainMenu);
 
-  vsCPU.remove();
-  twoPlayers.remove();
+  
 }
 
 function createBoard() {
