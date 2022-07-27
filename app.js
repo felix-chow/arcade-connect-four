@@ -6,9 +6,12 @@ let twoPlayers = document.querySelector("#two-players");
 twoPlayers.addEventListener("click", initializeTwoPlayerGame);
 
 // Initialize all global variables
+let players = ["Jack", "Bob"]; // Test array
+// let players = []
 const boardDisplay = document.querySelector(".board");
 const displayCurrentPlayer = document.querySelector(".current-player");
-const currentPlayer = document.createTextNode("It is")
+const divColumn = document.createElement("div");
+// const currentPlayer = document.createTextNode("It is ");
 //   submitButton = document.querySelector("input");
 // const newPlayerText = document.createTextNode("Please enter your name: ");
 
@@ -24,8 +27,7 @@ function initializeTwoPlayerGame() {
 const board = [];
 
 let gameState = {
-  board: board,
-  players: ["Jack", "Bob"]
+  // board: board,
 }
 
 // function retrievePlayerNames(event) {
@@ -69,32 +71,32 @@ function getPlayerTurn() {
 
 function createBoard() {
 
-  let players = gameState.players;
-  
-  // for (let i = 0; i < players.length; i++) {
-  //   currentPlayer.innerHTML = players;
-  // }
+  vsCPU.remove();
+  twoPlayers.remove();
 
-  for (let i = 0; i < 7; i++) {
-    const divColumn = document.createElement("div");
+  let players = getPlayerTurn();
+  const currentPlayer = document.createTextNode(`${players}\'s turn`);
+  displayCurrentPlayer.appendChild(currentPlayer);
+
+  for (let i = 1; i < 7; i++) {
+    
     divColumn.classList.add("column");
+
+    for (let j = 1; j < 7; j++) {
+      const divDisc = document.createElement("div");
+      divDisc.classList.add("disc");
+      divColumn.appendChild(divDisc);
+    }
     boardDisplay.appendChild(divColumn);
   }
 
-  for (let j = 0; j < 7; j++) {
-    const divDisc = document.createElement("div");
-    divDisc.classList.add("disc");
-    divColumn = document.querySelector(".column");
-
-    divColumn.appendChild(divDisc);
-  }
 }
 
 
 
-function clickBoard() {
-
-}
+// function clickDisc(event) {
+//   if (divColumn)
+// }
 
 // function pushChip() {
 //   // Loop through all 7 columns of the board
