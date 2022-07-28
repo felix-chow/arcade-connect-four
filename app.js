@@ -1,3 +1,19 @@
+// Initialize all global variables
+
+// Initialize board to empty array
+let board = [
+  [0, 1, 2, 3, 4, 5],
+  [6, 7, 8, 9, 10, 11],
+  [12, 13, 14, 15, 16, 17],
+  [18, 19, 20, 21, 22, 23],
+  [24, 25, 26, 27, 28, 29],
+  [30, 31, 32, 33, 34, 35],
+  [36, 37, 38, 39, 40, 41]
+];
+
+let players = ["Jack", "Bob"]; // Test array
+// let players = []
+
 // Assign variables to IDs
 let vsCPU = document.querySelector("#versus-cpu");
 let twoPlayers = document.querySelector("#two-players");
@@ -5,30 +21,26 @@ let twoPlayers = document.querySelector("#two-players");
 // When player clicks "Two Players" option, call initializeTwoPlayerGame
 twoPlayers.addEventListener("click", initializeTwoPlayerGame);
 
-// Initialize all global variables
-let players = ["Jack", "Bob"]; // Test array
-// let players = []
 const boardDisplay = document.querySelector(".board");
 const displayCurrentPlayer = document.querySelector(".current-player");
-const divColumn = document.createElement("div");
+const displayPlayerChips = document.querySelector(".player-chips");
+// let disc = document.querySelector(".disc");
+
 // const currentPlayer = document.createTextNode("It is ");
 //   submitButton = document.querySelector("input");
 // const newPlayerText = document.createTextNode("Please enter your name: ");
 
+let gameState = {};
 
 function initializeTwoPlayerGame() {
+  vsCPU.remove();
+  twoPlayers.remove();
   // addPlayerNames();
+  displayPlayerTurn();
   createBoard();
-  // getPlayerTurn();
   // clickBoard();
 }
 
-// Initialize board to empty array
-const board = [];
-
-let gameState = {
-  // board: board,
-}
 
 // function retrievePlayerNames(event) {
 
@@ -65,21 +77,41 @@ let gameState = {
 
 // }
 
+function setPlayerTurn() {
+  gameState.player = getPlayerTurn();
+}
+
 function getPlayerTurn() {
   return players[Math.floor(Math.random() * players.length)];
 }
 
+function displayPlayerTurn() {
+  let player = gameState.player;
+
+  const currentPlayer = document.createTextNode(`${player}\'s turn`);
+  displayCurrentPlayer.appendChild(currentPlayer);
+}
+
 function createBoard() {
 
-  vsCPU.remove();
-  twoPlayers.remove();
+  let player = gameState.player;
 
-  let players = getPlayerTurn();
-  const currentPlayer = document.createTextNode(`${players}\'s turn`);
-  displayCurrentPlayer.appendChild(currentPlayer);
+  const redChip = document.createElement("div");
+  redChip.classList.add("red-chip");
+  displayPlayerChips.appendChild(redChip);
+  
+  const yellowChip = document.createElement("div");
+  yellowChip.classList.add("yellow-chip");
+  displayPlayerChips.appendChild(yellowChip);
+  
+  if (this.currentPlayer === player[0]) {
+    yellowChip.remove();
+  } else {
+    redChip.remove();
+  }
 
-  for (let i = 1; i < 7; i++) {
-    
+  for (let i = 1; i < 8; i++) {
+    const divColumn = document.createElement("div");
     divColumn.classList.add("column");
 
     for (let j = 1; j < 7; j++) {
@@ -89,14 +121,16 @@ function createBoard() {
     }
     boardDisplay.appendChild(divColumn);
   }
-
+  let disc = document.querySelector(".disc");
+  disc.addEventListener("click", clickDisc);
 }
 
 
 
-// function clickDisc(event) {
-//   if (divColumn)
-// }
+function clickDisc() {
+  // if (divColumn)
+  console.log("you have clicked a disc!");
+}
 
 // function pushChip() {
 //   // Loop through all 7 columns of the board
