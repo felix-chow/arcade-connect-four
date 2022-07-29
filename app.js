@@ -11,10 +11,11 @@ let board = [
   [36, 37, 38, 39, 40, 41]
 ];
 
-let players = ["Jack", "Bob"]; // Test array
-// let players = []
+// let players = ["Jack", "Bob"];
+let players = [];
 
 // Assign variables to IDs
+let menu = document.querySelector(".main-menu");
 let vsCPU = document.querySelector("#versus-cpu");
 let twoPlayers = document.querySelector("#two-players");
 
@@ -28,113 +29,108 @@ const displayPlayerChips = document.querySelector(".player-chips");
 
 // const currentPlayer = document.createTextNode("It is ");
 //   submitButton = document.querySelector("input");
-// const newPlayerText = document.createTextNode("Please enter your name: ");
 
 let gameState = {};
 
 function initializeTwoPlayerGame() {
-  vsCPU.remove();
-  twoPlayers.remove();
-  // addPlayerNames();
-  displayPlayerTurn();
-  createBoard();
+  menu.remove();
+  getPlayerNames();
+  // displayPlayerTurn();
+  // createBoard();
   // clickBoard();
 }
 
+function setPlayerNames() {
 
-// function retrievePlayerNames(event) {
 
-//   submitButton.value = input.value;
+  const newPlayerText = document.createTextNode("Please enter your name: ");
+  displayCurrentPlayer.appendChild(newPlayerText);
 
-//   console.log(submitButton.value);
-//   currentPlayer.innerHTML
+  const nameInput = document.createElement("input");
+  nameInput.id = "name";
+
+  const submitButton = document.createElement("button");
+  submitButton.innerText = "submit";
+
+  displayCurrentPlayer.appendChild(nameInput);
+  displayCurrentPlayer.appendChild(submitButton);
+
+
+  submitButton.addEventListener("click", getPlayerNames)
+
+  // const backButton = document.createElement("input");
+  // backButton.setAttribute("type", "submit");
+  // displayCurrentPlayer.appendChild(backButton);
+  // backButton.addEventListener("click", mainMenu);
+
+
+}
+
+function getPlayerNames(event) {
+  let button = event.target;
+  const name = button.innerText;
+  setPlayerTurn(name);
+
+  // console.log(button.value);
+  // currentPlayer.innerHTML
+}
+
+function setPlayerTurn(name) {
+  gameState.player = getPlayerNames();
+  // gameState.player = getPlayerTurn();
+  players.push([]) = gameState.player;
+}
+
+// function getPlayerTurn() {
+//   return players[Math.floor(Math.random() * players.length)];
 // }
 
-// function addPlayerNames() {
+// function displayPlayerTurn() {
+//   let player = gameState.player;
 
-//   vsCPU.remove();
-//   twoPlayers.remove();
-
-
-// currentPlayer.appendChild(newPlayerText);
-
-// const input = document.createElement("input");
-// input.id = "name";
-
-// const submitButton = document.createElement("input");
-// submitButton.setAttribute("type", "submit");
-
-// currentPlayer.appendChild(input);
-// currentPlayer.appendChild(submitButton);
-
-// submitButton.addEventListener("click", retrievePlayerNames)
-
-// const backButton = document.createElement("input");
-// backButton.setAttribute("type", "submit");
-// currentPlayer.appendChild(backButton);
-// backButton.addEventListener("click", mainMenu);
-
-
+//   const currentPlayer = document.createTextNode(`${player}\'s turn`);
+//   displayCurrentPlayer.appendChild(currentPlayer);
 // }
 
-function setPlayerTurn() {
-  gameState.player = getPlayerTurn();
-}
+// function createBoard() {
 
-function getPlayerTurn() {
-  return players[Math.floor(Math.random() * players.length)];
-}
+  // let player = gameState.player;
 
-function displayPlayerTurn() {
-  let player = gameState.player;
+  // const redChip = document.createElement("div");
+  // redChip.classList.add("red-chip");
+  // displayPlayerChips.appendChild(redChip);
 
-  const currentPlayer = document.createTextNode(`${player}\'s turn`);
-  displayCurrentPlayer.appendChild(currentPlayer);
-}
+  // const yellowChip = document.createElement("div");
+  // yellowChip.classList.add("yellow-chip");
+  // displayPlayerChips.appendChild(yellowChip);
 
-function createBoard() {
+  // if (this.currentPlayer === player[0]) {
+  //   yellowChip.remove();
+  // } else {
+  //   redChip.remove();
+  // }
 
-  let player = gameState.player;
+  // for (let i = 1; i < 8; i++) {
+  //   const divColumn = document.createElement("div");
+  //   divColumn.classList.add("column");
 
-  const redChip = document.createElement("div");
-  redChip.classList.add("red-chip");
-  displayPlayerChips.appendChild(redChip);
-  
-  const yellowChip = document.createElement("div");
-  yellowChip.classList.add("yellow-chip");
-  displayPlayerChips.appendChild(yellowChip);
-  
-  if (this.currentPlayer === player[0]) {
-    yellowChip.remove();
-  } else {
-    redChip.remove();
-  }
-
-  for (let i = 1; i < 8; i++) {
-    const divColumn = document.createElement("div");
-    divColumn.classList.add("column");
-
-    for (let j = 1; j < 7; j++) {
-      const divDisc = document.createElement("div");
-      divDisc.classList.add("disc");
-      divColumn.appendChild(divDisc);
-    }
-    boardDisplay.appendChild(divColumn);
-  }
-  let disc = document.querySelector(".disc");
-  disc.addEventListener("click", clickDisc);
-}
+  //   for (let j = 1; j < 7; j++) {
+  //     const divDisc = document.createElement("div");
+  //     divDisc.classList.add("disc");
+  //     divColumn.appendChild(divDisc);
+  //   }
+  //   boardDisplay.appendChild(divColumn);
+  // }
+  // let disc = document.querySelector(".disc");
+  // disc.addEventListener("click", clickDisc);
+// }
 
 
 
-function clickDisc() {
-  // if (divColumn)
-  console.log("you have clicked a disc!");
-}
-
-// function pushChip() {
-//   // Loop through all 7 columns of the board
-//   for (let i = 0; i < 7; i++) {
-//     board.push([])
-//   }
+// function clickDisc() {
+//   console.log("you have clicked a disc!");
+//     // Loop through all 7 columns of the board
+//     for (let i = 0; i < 7; i++) {
+//       board.push([])
+//     }
 // }
