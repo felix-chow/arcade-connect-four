@@ -1,31 +1,30 @@
 // Initialize all global variables
 
 // Initialize board to empty array
-let board = [
-  [0, 1, 2, 3, 4, 5],
-  [6, 7, 8, 9, 10, 11],
-  [12, 13, 14, 15, 16, 17],
-  [18, 19, 20, 21, 22, 23],
-  [24, 25, 26, 27, 28, 29],
-  [30, 31, 32, 33, 34, 35],
-  [36, 37, 38, 39, 40, 41]
-];
+// let board = [
+//   [0, 1, 2, 3, 4, 5],
+//   [6, 7, 8, 9, 10, 11],
+//   [12, 13, 14, 15, 16, 17],
+//   [18, 19, 20, 21, 22, 23],
+//   [24, 25, 26, 27, 28, 29],
+//   [30, 31, 32, 33, 34, 35],
+//   [36, 37, 38, 39, 40, 41]
+// ];
 
 let players = ["Jack", "Bob"];
 // let players = [];
 
 // Assign variables to IDs
-let menu = document.querySelector(".main-menu");
-let vsCPU = document.querySelector("#versus-cpu");
-let twoPlayers = document.querySelector("#two-players");
+const menu = document.querySelector(".main-menu");
+const vsCPU = document.querySelector("#versus-cpu");
+const twoPlayers = document.querySelector("#two-players");
 
 // When player clicks "Two Players" option, call initializeTwoPlayerGame
 twoPlayers.addEventListener("click", initializeTwoPlayerGame);
 
 const boardDisplay = document.querySelector(".board");
 const displayCurrentPlayer = document.querySelector(".current-player");
-const displayPlayerChips = document.querySelector(".player-chips");
-// let disc = document.querySelector(".disc");
+const disc = document.querySelector(".disc");
 
 // const currentPlayer = document.createTextNode("It is ");
 //   submitButton = document.querySelector("input");
@@ -37,7 +36,6 @@ function initializeTwoPlayerGame() {
   // getPlayerNames();
   displayPlayerTurn();
   createBoard();
-  // clickBoard();
 }
 
 // function setPlayerNames() {
@@ -94,10 +92,10 @@ function displayPlayerTurn() {
   let activePlayer = players;
 
   // if (activePlayer === players[0]) {
-    const currentPlayer = document.createTextNode(`${activePlayer}\'s turn`);
-    displayCurrentPlayer.appendChild(currentPlayer);
+  const currentPlayer = document.createTextNode(`${activePlayer}\'s turn`);
+  displayCurrentPlayer.appendChild(currentPlayer);
   // }
-  
+
   // else if (activePlayer === players[1]) {
     // const currentPlayer = document.createTextNode(`${activePlayer}\'s turn`);
     // displayCurrentPlayer.appendChild(currentPlayer);
@@ -106,21 +104,6 @@ function displayPlayerTurn() {
 }
 
 function createBoard() {
-
-  // const redChip = document.createElement("div");
-  // redChip.classList.add("red-chip");
-  // displayPlayerChips.appendChild(redChip);
-
-  // const yellowChip = document.createElement("div");
-  // yellowChip.classList.add("yellow-chip");
-  // displayPlayerChips.appendChild(yellowChip);
-
-  // if (this.currentPlayer === players[0]) {
-  //   yellowChip.remove();
-  // } else {
-  //   redChip.remove();
-  // }
-
   for (let i = 1; i < 8; i++) {
     const divColumn = document.createElement("div");
     divColumn.classList.add("column");
@@ -132,18 +115,55 @@ function createBoard() {
     }
     boardDisplay.appendChild(divColumn);
   }
-  let disc = document.querySelector(".disc");
-  disc.addEventListener("click", clickDisc);
+
+  const restartButton = document.createElement("button");
+  restartButton.id = "restart";
+  restartButton.innerText = "Restart";
+  boardDisplay.appendChild(restartButton);
 }
 
+function onDiscClick(event) {
+  disc = event.target;
+  dropChip(disc);
+}
+
+function dropChip(disc) {
+  let activePlayer = players;
+  // Loop through all 7 columns of the board
+  for (let i = 0; i < disc.length; i++) {
+    console.log("Disc has been clicked!");
 
 
-function clickDisc() {
-    // Loop through all 7 columns of the board
-    for (let i = 0; i < 8; i++) {
-      for (let j = 1; j < 7; j++) {
-        board.push([])
 
-      }
-    }
+
+    // if (disc.classList.contains("taken")) {
+    //   if (activePlayer === players[0]) {
+    //     disc[i].classList.add("taken");
+    //     disc[i].classList.add("player-one");
+    //     displayCurrentPlayer();
+    //   } else if (activePlayer === players[0]) {
+    //     disc[i].classList.add("taken");
+    //     disc[i].classList.add("player-two");
+    //     displayCurrentPlayer();
+    //   }
+    // } else {
+    //   const spotTaken = document.createTextNode("That spot's taken.")
+    // }
+  }
+}
+
+function playAgain() {
+  gameState = {};
+  playAgainButton.style.display = "none";
+  initializeTwoPlayerGame();
+}
+
+if (disc) {
+  disc.addEventListener("click", onDiscClick, false);
+}
+
+const restartButton = document.querySelector("#restart");
+
+if (restartButton) {
+  restartButton.addEventListener("click", playAgain);
 }
