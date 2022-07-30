@@ -58,10 +58,10 @@ button {
     height: 50px;
 } 
 
-.taken .player-one {
+.player-one {
     background-color: red;
 }
 
-.taken .player-two {
+.player-two {
     background-color: yellow;
 }
