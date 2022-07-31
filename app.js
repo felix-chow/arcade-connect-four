@@ -85,14 +85,12 @@ let winningBoard = [
 
 let players = ["Jack", "Bob"];
 let activePlayer = players[0];
-// console.log(activePlayer);
 // let players = [];
 
 // Assign variables to IDs
 const menu = document.querySelector(".main-menu");
 const vsCPU = document.querySelector("#versus-cpu");
 const PvP = document.querySelector("#PvP");
-
 const boardDisplay = document.querySelector(".board");
 const displayCurrentPlayer = document.querySelector(".current-player");
 //   submitButton = document.querySelector("input");
@@ -100,7 +98,7 @@ const displayCurrentPlayer = document.querySelector(".current-player");
 function mainMenu() {
   // When player clicks "Versus CPU" option, call initializeVersusCPUGame
   // vsCPU.addEventListener("click", initializeVersusCPUGame);
-  
+
   // When player clicks "Two Players" option, call initializeTwoPlayerGame
   PvP.addEventListener("click", initializePvPGame);
 }
@@ -119,7 +117,6 @@ function initializePvPGame() {
   menu.remove();
   // displayPvPGameMode();
   // getPlayerNames();
-  displayPlayerTurn();
   createBoard();
 }
 
@@ -186,12 +183,15 @@ function setPlayers() {
 
   activePlayer = players;
   activePlayer = players[0];
-  displayPlayerTurn(activePlayer);
-  console.log("here");
+  // displayPlayerTurn(activePlayer);
 }
 
-function displayPlayerTurn(activePlayer) {
+// function displayPlayerTurn(activePlayer) {
+//   console.log(activePlayer);
 
+// }
+
+function createBoard() {
   if (activePlayer === players[0]) {
     const currentPlayer = document.createTextNode(`${activePlayer}\'s turn`);
     displayCurrentPlayer.appendChild(currentPlayer);
@@ -199,11 +199,7 @@ function displayPlayerTurn(activePlayer) {
     const currentPlayer = document.createTextNode(`${activePlayer}\'s turn`);
     displayCurrentPlayer.appendChild(currentPlayer);
   }
-
-}
-
-
-function createBoard() {
+  
   for (let i = 1; i < 8; i++) {
     const divColumn = document.createElement("div");
     divColumn.classList.add("column");
@@ -227,7 +223,7 @@ boardDisplay.addEventListener("click", onSlotClick);
 function onSlotClick(event) {
   const slot = event.target.closest(".disc");
   if (!slot) {
-    console.log("Not a valid space. Please click on a slot.");
+    alert("Not a valid space. Please click on a slot.");
   } else {
     // console.log("Slot has been clicked!");
     // console.log("dropped");
@@ -239,7 +235,7 @@ function onSlotClick(event) {
 function dropChip(slot) {
   // let activePlayer = players;
   // activePlayer = players[0];
-  // console.log(activePlayer);
+  // for (let x = 0; x < slot.length; x++) {
   if (activePlayer === players[0]) {
     if (slot.classList.contains("taken")) {
       const spotTaken = document.createTextNode("That spot's taken.");
@@ -269,7 +265,9 @@ function dropChip(slot) {
       // displayPlayerTurn(activePlayer);
     }
   }
+
 }
+// }
 
 function checkBoard() {
   for (let x = 0; x < winningBoard.length; x++) {
@@ -277,15 +275,16 @@ function checkBoard() {
     const winningSlots2 = slot[winningBoard[x][1]];
     const winningSlots3 = slot[winningBoard[x][2]];
     const winningSlots4 = slot[winningBoard[x][3]];
-    
+
     if (winningSlots1.classList.contains("player-one") && winningSlots2.classList.contains("player-one") &&
-    winningSlots3.classList.contains("player-one") && winningSlots4.classList.contains("player-one")) { 
+      winningSlots3.classList.contains("player-one") && winningSlots4.classList.contains("player-one")) {
       const result = document.createTextNode(`${players[0]} wins!`);
+      console.log(result);
       displayCurrentPlayer.appendChild(result);
     }
-    
+
     if (winningSlots1.classList.contains("player-two") && winningSlots2.classList.contains("player-two") &&
-    winningSlots3.classList.contains("player-two") && winningSlots4.classList.contains("player-two")) { 
+      winningSlots3.classList.contains("player-two") && winningSlots4.classList.contains("player-two")) {
       const result = document.createTextNode(`${players[1]} wins!`);
       displayCurrentPlayer.appendChild(result);
     }
