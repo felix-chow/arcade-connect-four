@@ -121,19 +121,29 @@ function initializeTwoPlayerGame() {
 //   players.push([]) = gameState.player;
 // }
 
-function setPlayerTurn() {
+function setPlayers() {
   gameState.players = players;
-}
-
-function displayPlayerTurn() {
+  // activePlayer = players[0];
+  
   let activePlayer = players;
   activePlayer = players[0];
+  displayPlayerTurn(activePlayer);
+}
 
-  const currentPlayer = document.createTextNode(`${activePlayer}\'s turn`);
-  displayCurrentPlayer.appendChild(currentPlayer);
+function displayPlayerTurn(activePlayer) {
+  
+  if (activePlayer === players[0]) {
+    const currentPlayer = document.createTextNode(`${activePlayer}\'s turn`);
+    displayCurrentPlayer.appendChild(currentPlayer);
+  } else if (activePlayer === players[1]) {
+    const currentPlayer = document.createTextNode(`${activePlayer}\'s turn`);
+    displayCurrentPlayer.appendChild(currentPlayer);
+  }
+
 }
 
 function createBoard() {
+
   for (let i = 1; i < 8; i++) {
     const divColumn = document.createElement("div");
     divColumn.classList.add("column");
@@ -157,32 +167,42 @@ function onSlotClick(event) {
   if (!slot) {
     console.log("Not a valid space. Please click on a slot.");
   } else {
-    console.log("Slot has been clicked!");
+    // console.log("Slot has been clicked!");
+    dropChip(slot);
   }
 
-  dropChip(slot);
 }
 
 function dropChip(slot) {
   let activePlayer = players;
-  // if (activePlayer === players[0]) {
-  // let column = document.querySelector(".column");
-  // let divSlot = document.querySelector(".disc");
-  console.log(slot);
-  if (!slot.classList.contains("taken")) {
-    slot.classList.add("taken");
-    slot.classList.add("player-one");
-    // activePlayer = players[1];
-    // displayPlayerTurn();
-  } else {
-    const spotTaken = document.createTextNode("That spot's taken.");
-    displayCurrentPlayer.appendChild(spotTaken);
-  }
+  activePlayer = players[0];
+  console.log(activePlayer);
+  if (activePlayer === players[0]) {
+    if (!slot.classList.contains("taken")) {
+      slot.classList.add("taken");
+      slot.classList.add("player-one");
+    } else {
+      const spotTaken = document.createTextNode("That spot's taken.");
+      displayCurrentPlayer.appendChild(spotTaken);
+    }
+    activePlayer = players[1];
+  } 
+  
+  else if (activePlayer === players[1]) {
+    console.log(activePlayer);
+    // console.log(displayPlayerTurn(activePlayer));
+    if (!slot.classList.contains("taken")) {
+      slot.classList.add("taken");
+      slot.classList.add("player-two");
+    } else {
+      const spotTaken = document.createTextNode("That spot's taken.");
+      displayCurrentPlayer.appendChild(spotTaken);
+    }
+    activePlayer = players[0];
+    // displayPlayerTurn(activePlayer);
 
-  // }
+  }
 }
-// }
-// }
 
 // function playAgain() {
 //   gameState = {};
