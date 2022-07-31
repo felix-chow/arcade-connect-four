@@ -188,7 +188,7 @@ function dropChip(slot) {
     activePlayer = players[1];
   } 
   
-  else if (activePlayer === players[1]) {
+  else {
     console.log(activePlayer);
     // console.log(displayPlayerTurn(activePlayer));
     if (!slot.classList.contains("taken")) {
