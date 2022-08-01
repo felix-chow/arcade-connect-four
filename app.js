@@ -11,93 +11,96 @@
 //   [36, 37, 38, 39, 40, 41]
 // ];
 
-let winningBoard = [
-  [0, 1, 2, 3],
-  [41, 40, 39, 38],
-  [7, 8, 9, 10],
-  [34, 33, 32, 31],
-  [14, 15, 16, 17],
-  [27, 26, 25, 24],
-  [21, 22, 23, 24],
-  [20, 19, 18, 17],
-  [28, 29, 30, 31],
-  [13, 12, 11, 10],
-  [35, 36, 37, 38],
-  [6, 5, 4, 3],
-  [0, 7, 14, 21],
-  [41, 34, 27, 20],
-  [1, 8, 15, 22],
-  [40, 33, 26, 19],
-  [2, 9, 16, 23],
-  [39, 32, 25, 18],
-  [3, 10, 17, 24],
-  [38, 31, 24, 17],
-  [4, 11, 18, 25],
-  [37, 30, 23, 16],
-  [5, 12, 19, 26],
-  [36, 29, 22, 15],
-  [6, 13, 20, 27],
-  [35, 28, 21, 14],
-  [0, 8, 16, 24],
-  [41, 33, 25, 17],
-  [7, 15, 23, 31],
-  [34, 26, 18, 10],
-  [14, 22, 30, 38],
-  [27, 19, 11, 3],
-  [35, 29, 23, 17],
-  [6, 12, 18, 24],
-  [28, 22, 16, 10],
-  [13, 19, 25, 31],
-  [21, 15, 9, 3],
-  [20, 26, 32, 38],
-  [36, 30, 24, 18],
-  [5, 11, 17, 23],
-  [37, 31, 25, 19],
-  [4, 10, 16, 22],
-  [2, 10, 18, 26],
-  [39, 31, 23, 15],
-  [1, 9, 17, 25],
-  [40, 32, 24, 16],
-  [9, 17, 25, 33],
-  [8, 16, 24, 32],
-  [11, 17, 23, 29],
-  [12, 18, 24, 30],
-  [1, 2, 3, 4],
-  [5, 4, 3, 2],
-  [8, 9, 10, 11],
-  [12, 11, 10, 9],
-  [15, 16, 17, 18],
-  [19, 18, 17, 16],
-  [22, 23, 24, 25],
-  [26, 25, 24, 23],
-  [29, 30, 31, 32],
-  [33, 32, 31, 30],
-  [36, 37, 38, 39],
-  [40, 39, 38, 37],
-  [7, 14, 21, 28],
-  [8, 15, 22, 29],
-  [9, 16, 23, 30],
-  [10, 17, 24, 31],
-  [11, 18, 25, 32],
-  [12, 19, 26, 33],
-  [13, 20, 27, 34],
-];
+// let winningBoard = [
+//   [0, 1, 2, 3],
+//   [41, 40, 39, 38],
+//   [7, 8, 9, 10],
+//   [34, 33, 32, 31],
+//   [14, 15, 16, 17],
+//   [27, 26, 25, 24],
+//   [21, 22, 23, 24],
+//   [20, 19, 18, 17],
+//   [28, 29, 30, 31],
+//   [13, 12, 11, 10],
+//   [35, 36, 37, 38],
+//   [6, 5, 4, 3],
+//   [0, 7, 14, 21],
+//   [41, 34, 27, 20],
+//   [1, 8, 15, 22],
+//   [40, 33, 26, 19],
+//   [2, 9, 16, 23],
+//   [39, 32, 25, 18],
+//   [3, 10, 17, 24],
+//   [38, 31, 24, 17],
+//   [4, 11, 18, 25],
+//   [37, 30, 23, 16],
+//   [5, 12, 19, 26],
+//   [36, 29, 22, 15],
+//   [6, 13, 20, 27],
+//   [35, 28, 21, 14],
+//   [0, 8, 16, 24],
+//   [41, 33, 25, 17],
+//   [7, 15, 23, 31],
+//   [34, 26, 18, 10],
+//   [14, 22, 30, 38],
+//   [27, 19, 11, 3],
+//   [35, 29, 23, 17],
+//   [6, 12, 18, 24],
+//   [28, 22, 16, 10],
+//   [13, 19, 25, 31],
+//   [21, 15, 9, 3],
+//   [20, 26, 32, 38],
+//   [36, 30, 24, 18],
+//   [5, 11, 17, 23],
+//   [37, 31, 25, 19],
+//   [4, 10, 16, 22],
+//   [2, 10, 18, 26],
+//   [39, 31, 23, 15],
+//   [1, 9, 17, 25],
+//   [40, 32, 24, 16],
+//   [9, 17, 25, 33],
+//   [8, 16, 24, 32],
+//   [11, 17, 23, 29],
+//   [12, 18, 24, 30],
+//   [1, 2, 3, 4],
+//   [5, 4, 3, 2],
+//   [8, 9, 10, 11],
+//   [12, 11, 10, 9],
+//   [15, 16, 17, 18],
+//   [19, 18, 17, 16],
+//   [22, 23, 24, 25],
+//   [26, 25, 24, 23],
+//   [29, 30, 31, 32],
+//   [33, 32, 31, 30],
+//   [36, 37, 38, 39],
+//   [40, 39, 38, 37],
+//   [7, 14, 21, 28],
+//   [8, 15, 22, 29],
+//   [9, 16, 23, 30],
+//   [10, 17, 24, 31],
+//   [11, 18, 25, 32],
+//   [12, 19, 26, 33],
+//   [13, 20, 27, 34],
+// ];
 
-let players = ["Jack", "Bob"];
-let activePlayer = players[0];
-// let players = [];
 
-// Assign variables to IDs
+let players = ["Jack", "Bob", "Computer"];
+let player1 = players[0];
+let player2 = players[1];
+let CPU = players[2];
+
+// Assign variables to classes and IDs
 const menu = document.querySelector(".main-menu");
 const vsCPU = document.querySelector("#versus-cpu");
 const PvP = document.querySelector("#PvP");
 const boardDisplay = document.querySelector(".board");
 const displayCurrentPlayer = document.querySelector(".current-player");
-//   submitButton = document.querySelector("input");
+// const restartButtonContainer = document.querySelector(".restart-button-container");
+let activePlayer = player1;
 
 function mainMenu() {
   // When player clicks "Versus CPU" option, call initializeVersusCPUGame
-  // vsCPU.addEventListener("click", initializeVersusCPUGame);
+  vsCPU.addEventListener("click", initializeVersusCPUGame);
 
   // When player clicks "Two Players" option, call initializeTwoPlayerGame
   PvP.addEventListener("click", initializePvPGame);
@@ -105,24 +108,21 @@ function mainMenu() {
 
 let gameState = {};
 
-// function initializeVersusCPUGame() {
-//   menu.remove();
-//   displayVersusCPUGameMode();
-//   // getPlayerNames();
-//   displayPlayerTurn();
-//   createBoard();
-// }
+function initializeVersusCPUGame() {
+  menu.remove();
+  // getPlayerNames();
+  displayPlayerAndCPUTurn();
+  createBoard();
+}
 
 function initializePvPGame() {
   menu.remove();
-  // displayPvPGameMode();
   // getPlayerNames();
+  displayPlayerTurn();
   createBoard();
 }
 
 // function setPlayerNames() {
-
-
 //   const newPlayerText = document.createTextNode("Please enter your name: ");
 //   displayCurrentPlayer.appendChild(newPlayerText);
 
@@ -161,45 +161,80 @@ function initializePvPGame() {
 //   players.push([]) = gameState.player;
 // }
 
-// function displayVersusCPUGameMode() {
-//   const gameMode = document.createElement("div");
-//   gameMode.classList.add("game-mode");
-//   const gameModeTitle = document.createElement("h2");
-//   gameModeTitle.innerHTML = "Versus CPU";
-//   gameMode.appendChild(gameModeTitle);
-// }
-
-// function displayPvPGameMode() {
-//   const gameMode = document.createElement("div");
-//   gameMode.classList.add("game-mode");
-//   const gameModeTitle = document.createElement("h2");
-//   gameModeTitle.innerHTML = "PvP"
-//   gameMode.appendChild(gameModeTitle);
-// }
-
 function setPlayers() {
   gameState.players = players;
-  // activePlayer = players[0];
 
-  activePlayer = players;
-  activePlayer = players[0];
-  // displayPlayerTurn(activePlayer);
 }
 
-// function displayPlayerTurn(activePlayer) {
-//   console.log(activePlayer);
+// Single player mode
 
-// }
+function changeTurnsWithCPU() {
+  if (activePlayer === player1) {
+    activePlayer = CPU;
+  } else {
+    activePlayer = player1;
+  }
+}
+
+function displayPlayerAndCPUTurn() {
+  console.log(activePlayer);
+  displayCurrentPlayer.innerText = `${activePlayer}\'s turn`;
+}
+
+boardDisplay.addEventListener("click", onSlotClick_vsCPU);
+
+function onSlotClick_vsCPU(event) {
+  const slot = event.target.closest(".disc");
+  if (!slot) {
+    alert("Not a valid space. Please click on a slot.");
+  } else {
+
+    dropChipWithCPU(slot);
+  }
+
+}
+
+function dropChipWithCPU(slot) {
+  if (activePlayer === players[0]) {
+    if (slot.classList.contains("taken")) {
+      const spotTaken = document.createTextNode("That spot's taken.");
+      displayCurrentPlayer.appendChild(spotTaken);
+    } else {
+      slot.classList.add("taken");
+      slot.classList.add("player-one");
+      changeTurnsWithCPU();
+      displayPlayerAndCPUTurn();
+    }
+  } else {
+    if (activePlayer === CPU) {
+      Math.floor(Math.random() * 7);
+      slot.classList.add("taken");
+      slot.classList.add("computer");
+      changeTurnsWithCPU();
+      displayPlayerAndCPUTurn();
+    }
+  }
+
+  fourInARow(slot);
+}
+
+
+// PvP mode
+
+function changeTurn() {
+  if (activePlayer === player1) {
+    activePlayer = player2;
+  } else {
+    activePlayer = player1;
+  }
+}
+
+function displayPlayerTurn() {
+  displayCurrentPlayer.innerText = `${activePlayer}\'s turn`;
+}
 
 function createBoard() {
-  if (activePlayer === players[0]) {
-    const currentPlayer = document.createTextNode(`${activePlayer}\'s turn`);
-    displayCurrentPlayer.appendChild(currentPlayer);
-  } else if (activePlayer === players[1]) {
-    const currentPlayer = document.createTextNode(`${activePlayer}\'s turn`);
-    displayCurrentPlayer.appendChild(currentPlayer);
-  }
-  
+
   for (let i = 1; i < 8; i++) {
     const divColumn = document.createElement("div");
     divColumn.classList.add("column");
@@ -218,85 +253,69 @@ function createBoard() {
   // boardDisplay.appendChild(restartButton);
 }
 
-boardDisplay.addEventListener("click", onSlotClick);
-
 function onSlotClick(event) {
   const slot = event.target.closest(".disc");
   if (!slot) {
     alert("Not a valid space. Please click on a slot.");
   } else {
-    // console.log("Slot has been clicked!");
-    // console.log("dropped");
+
     dropChip(slot);
   }
 
 }
 
 function dropChip(slot) {
-  // let activePlayer = players;
-  // activePlayer = players[0];
-  // for (let x = 0; x < slot.length; x++) {
   if (activePlayer === players[0]) {
     if (slot.classList.contains("taken")) {
       const spotTaken = document.createTextNode("That spot's taken.");
       displayCurrentPlayer.appendChild(spotTaken);
-      // console.log("spot taken");
     } else {
       slot.classList.add("taken");
       slot.classList.add("player-one");
-      activePlayer = players[1];
-      // console.log("Player one's turn is over");
+      changeTurn();
+      displayPlayerTurn();
     }
   } else {
-    // console.log(activePlayer);
     if (activePlayer === players[1]) {
-      // console.log(displayPlayerTurn(activePlayer));
       if (slot.classList.contains("taken")) {
         const spotTaken = document.createTextNode("That spot's taken.");
         displayCurrentPlayer.appendChild(spotTaken);
-        // console.log("spot taken");
       } else {
         slot.classList.add("taken");
         slot.classList.add("player-two");
-        // console.log("Player two's turn is over");
+        changeTurn();
+        displayPlayerTurn();
       }
-      activePlayer = players[0];
-      // console.log(activePlayer);
-      // displayPlayerTurn(activePlayer);
     }
   }
 
+  fourInARow(slot);
+
 }
+
+function fourInARow(slot) {
+  let numSlotsTaken = 0;
+  while (numSlotsTaken = 4) {
+    if ((slot === "taken") && (slot === "player-one")) {
+      return `${players[0]} wins!`;
+    } else {
+      return `${players[1]} wins!`;
+    }
+
+  }
+}
+
+// function displayRestartButton() {
+//   const restartButton = document.createElement("button");
+//   restartButton.id = "restart";
+//   restartButtonContainer.append(restartButton);
 // }
 
-function checkBoard() {
-  for (let x = 0; x < winningBoard.length; x++) {
-    const winningSlots1 = slot[winningBoard[x][0]];
-    const winningSlots2 = slot[winningBoard[x][1]];
-    const winningSlots3 = slot[winningBoard[x][2]];
-    const winningSlots4 = slot[winningBoard[x][3]];
-
-    if (winningSlots1.classList.contains("player-one") && winningSlots2.classList.contains("player-one") &&
-      winningSlots3.classList.contains("player-one") && winningSlots4.classList.contains("player-one")) {
-      const result = document.createTextNode(`${players[0]} wins!`);
-      console.log(result);
-      displayCurrentPlayer.appendChild(result);
-    }
-
-    if (winningSlots1.classList.contains("player-two") && winningSlots2.classList.contains("player-two") &&
-      winningSlots3.classList.contains("player-two") && winningSlots4.classList.contains("player-two")) {
-      const result = document.createTextNode(`${players[1]} wins!`);
-      displayCurrentPlayer.appendChild(result);
-    }
-
-  }
-}
-
-function playAgain() {
-  gameState = {};
-  playAgainButton.style.display = "none";
-  initializeTwoPlayerGame();
-}
+// function playAgain() {
+//   gameState = {};
+//   restartButtonContainer.style.display = "none";
+//   initializeTwoPlayerGame();
+// }
 
 mainMenu();
 

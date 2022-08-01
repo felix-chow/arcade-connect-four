@@ -62,6 +62,6 @@ button {
     background-color: red;
 }
 
-.player-two {
+.player-two, .computer {
     background-color: yellow;
 }
