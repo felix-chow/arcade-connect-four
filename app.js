@@ -1,9 +1,11 @@
 // Initialize all global variables
 
-let players = ["Jack", "Bob", "Computer"];
-let player1 = players[0];
-let player2 = players[1];
-let CPU = players[2];
+// let players = ["Jack", "Bob", "Computer"];
+let players = [];
+let CPU = "Computer";
+players.push(CPU);
+let player1;
+let player2;
 
 // Assign variables to classes and IDs
 const menu = document.querySelector(".main-menu");
@@ -12,7 +14,7 @@ const PvP = document.querySelector("#PvP");
 const boardDisplay = document.querySelector(".board");
 const displayCurrentPlayer = document.querySelector(".current-player");
 // const restartButtonContainer = document.querySelector(".restart-button-container");
-let activePlayer = player1;
+let activePlayer;
 
 function mainMenu() {
   // When player clicks "Versus CPU" option, call initializeVersusCPUGame
@@ -24,120 +26,158 @@ function mainMenu() {
 
 let gameState = {};
 
-function initializeVersusCPUGame() {
-  menu.remove();
-  // getPlayerNames();
-  displayPlayerAndCPUTurn();
-  createBoard();
-}
+// Single player mode
+
+// function initializeVersusCPUGame() {
+//   menu.remove();
+//   setPlayerNames();
+// }
+
+// function changeTurnsWithCPU() {
+//   if (activePlayer === player1) {
+//     activePlayer = CPU;
+//   } else {
+//     activePlayer = player1;
+//   }
+// }
+
+// function displayPlayerAndCPUTurn() {
+//   console.log(activePlayer);
+//   displayCurrentPlayer.innerText = `${activePlayer}\'s turn`;
+// }
+
+// boardDisplay.addEventListener("click", onSlotClick_vsCPU);
+
+// function onSlotClick_vsCPU(event) {
+//   const slot = event.target.closest(".disc");
+//   if (!slot) {
+//     alert("Not a valid space. Please click on a slot.");
+//   } else {
+
+//     dropChipWithCPU(slot);
+//   }
+
+// }
+
+// function dropChipWithCPU(slot) {
+//   if (activePlayer === players[0]) {
+//     if (slot.classList.contains("taken")) {
+//       const spotTaken = document.createTextNode("That spot's taken.");
+//       displayCurrentPlayer.appendChild(spotTaken);
+//     } else {
+//       slot.classList.add("taken");
+//       slot.classList.add("player-one");
+//       changeTurnsWithCPU();
+//       displayPlayerAndCPUTurn();
+//     }
+//   } else {
+//     if (activePlayer === CPU) {
+//       Math.floor(Math.random() * 7);
+//       slot.classList.add("taken");
+//       slot.classList.add("computer");
+//       changeTurnsWithCPU();
+//       displayPlayerAndCPUTurn();
+//     }
+//   }
+
+//   fourInARow(slot);
+// }
+
+
+// Multiplayer mode
 
 function initializePvPGame() {
   menu.remove();
-  // getPlayerNames();
-  displayPlayerTurn();
-  createBoard();
+  setPlayerOneName();
 }
 
-// function setPlayerNames() {
-//   const newPlayerText = document.createTextNode("Please enter your name: ");
-//   displayCurrentPlayer.appendChild(newPlayerText);
 
-//   const nameInput = document.createElement("input");
-//   nameInput.id = "name";
+function setPlayerOneName() {
+  const playerOneParagraph = document.createElement("p");
+  const playerOneText = document.createTextNode("Player 1, please enter your name: ");
+  playerOneParagraph.appendChild(playerOneText);
+  displayCurrentPlayer.appendChild(playerOneParagraph);
 
-//   const submitButton = document.createElement("button");
-//   submitButton.innerText = "submit";
+  const playerOneNameInput = document.createElement("input");
+  playerOneNameInput.id = "name";
 
-//   displayCurrentPlayer.appendChild(nameInput);
-//   displayCurrentPlayer.appendChild(submitButton);
+  const playerOneSubmitButton = document.createElement("button");
+  playerOneSubmitButton.innerText = "submit";
 
+  displayCurrentPlayer.appendChild(playerOneNameInput);
+  displayCurrentPlayer.appendChild(playerOneSubmitButton);
 
-//   submitButton.addEventListener("click", getPlayerNames)
+  playerOneSubmitButton.addEventListener("click", getPlayerOneName)
+
+}
 
 // const backButton = document.createElement("input");
 // backButton.setAttribute("type", "submit");
 // displayCurrentPlayer.appendChild(backButton);
 // backButton.addEventListener("click", mainMenu);
 
+function getPlayerOneName() {
+  const playerOneSubmitButton = document.querySelector("#name");
+  let name = playerOneSubmitButton.value;
+  setPlayerOne(name);
+}
 
-// }
-
-// function getPlayerNames(event) {
-//   let button = event.target;
-//   const name = button.innerText;
-//   setPlayerTurn(name);
-
-// console.log(button.value);
-// currentPlayer.innerHTML
-// }
-
-// function setPlayerTurn(name) {
-//   gameState.player = name;
-//   gameState.player = getPlayerTurn();
-//   players.push([]) = gameState.player;
-// }
-
-function setPlayers() {
+function setPlayerOne(name) {
   gameState.players = players;
+  const playerOneSubmitButton = document.querySelector("#name");
+  name = playerOneSubmitButton.value;
+  player1 = name;
+  players.push(player1);
+  console.log(players);
+  activePlayer = player1;
+  setPlayerTwoName();
+}
+
+function setPlayerTwoName() {
+  const playerOneParagraph = document.querySelector("p");
+  playerOneParagraph.remove();
+  const playerOneNameInput = document.querySelector("input");
+  playerOneNameInput.remove();
+  const playerOneSubmitButton = document.querySelector("button");
+  playerOneSubmitButton.remove();
+
+  const playerTwoParagraph = document.createElement("p");
+  const playerTwoText = document.createTextNode("Player 2, please enter your name: ");
+  playerTwoParagraph.appendChild(playerTwoText);
+  displayCurrentPlayer.appendChild(playerTwoParagraph);
+
+  const playerTwoNameInput = document.createElement("input");
+  playerTwoNameInput.id = "name";
+
+  const playerTwoSubmitButton = document.createElement("button");
+  playerTwoSubmitButton.innerText = "submit";
+
+  displayCurrentPlayer.appendChild(playerTwoNameInput);
+  displayCurrentPlayer.appendChild(playerTwoSubmitButton);
+
+  playerTwoSubmitButton.addEventListener("click", getPlayerTwoName)
 
 }
 
-// Single player mode
-
-function changeTurnsWithCPU() {
-  if (activePlayer === player1) {
-    activePlayer = CPU;
-  } else {
-    activePlayer = player1;
-  }
+function getPlayerTwoName() {
+  const playerTwoNameInput = document.querySelector("#name");
+  let name = playerTwoNameInput.value;
+  setPlayerTwo(name);
 }
 
-function displayPlayerAndCPUTurn() {
-  console.log(activePlayer);
-  displayCurrentPlayer.innerText = `${activePlayer}\'s turn`;
-}
-
-boardDisplay.addEventListener("click", onSlotClick_vsCPU);
-
-function onSlotClick_vsCPU(event) {
-  const slot = event.target.closest(".disc");
-  if (!slot) {
-    alert("Not a valid space. Please click on a slot.");
-  } else {
-
-    dropChipWithCPU(slot);
-  }
+function setPlayerTwo(name) {
+  gameState.players = players;
+  const playerTwoNameInput = document.querySelector("#name");
+  name = playerTwoNameInput.value;
+  player2 = name;
+  players.push(player2);
+  console.log(players);
+  createBoard();
 
 }
-
-function dropChipWithCPU(slot) {
-  if (activePlayer === players[0]) {
-    if (slot.classList.contains("taken")) {
-      const spotTaken = document.createTextNode("That spot's taken.");
-      displayCurrentPlayer.appendChild(spotTaken);
-    } else {
-      slot.classList.add("taken");
-      slot.classList.add("player-one");
-      changeTurnsWithCPU();
-      displayPlayerAndCPUTurn();
-    }
-  } else {
-    if (activePlayer === CPU) {
-      Math.floor(Math.random() * 7);
-      slot.classList.add("taken");
-      slot.classList.add("computer");
-      changeTurnsWithCPU();
-      displayPlayerAndCPUTurn();
-    }
-  }
-
-  fourInARow(slot);
-}
-
-
-// PvP mode
 
 function changeTurn() {
+
   if (activePlayer === player1) {
     activePlayer = player2;
   } else {
@@ -150,6 +190,14 @@ function displayPlayerTurn() {
 }
 
 function createBoard() {
+  const playerTwoParagraph = document.querySelector("p");
+  playerTwoParagraph.remove();
+  const playerTwoNameInput = document.querySelector("input");
+  playerTwoNameInput.remove();
+  const playerTwoSubmitButton = document.querySelector("button");
+  playerTwoSubmitButton.remove();
+
+  displayPlayerTurn();
 
   for (let i = 1; i < 8; i++) {
     const divColumn = document.createElement("div");
@@ -162,7 +210,10 @@ function createBoard() {
     }
     boardDisplay.appendChild(divColumn);
   }
+
 }
+
+boardDisplay.addEventListener("click", onSlotClick);
 
 function onSlotClick(event) {
   const slot = event.target.closest(".disc");
@@ -176,7 +227,7 @@ function onSlotClick(event) {
 }
 
 function dropChip(slot) {
-  if (activePlayer === players[0]) {
+  if (activePlayer === players[1]) {
     if (slot.classList.contains("taken")) {
       const spotTaken = document.createTextNode("That spot's taken.");
       displayCurrentPlayer.appendChild(spotTaken);
@@ -187,7 +238,7 @@ function dropChip(slot) {
       displayPlayerTurn();
     }
   } else {
-    if (activePlayer === players[1]) {
+    if (activePlayer === players[2]) {
       if (slot.classList.contains("taken")) {
         const spotTaken = document.createTextNode("That spot's taken.");
         displayCurrentPlayer.appendChild(spotTaken);
@@ -228,7 +279,7 @@ function fourInARow(slot) {
 //   initializeTwoPlayerGame();
 // }
 
-mainMenu();
+// mainMenu();
 
 // const restartButton = document.querySelector("#restart");
 
