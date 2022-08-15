@@ -1,6 +1,5 @@
 // Initialize all global variables
 
-// let players = ["Jack", "Bob", "Computer"];
 let players = [];
 let CPU = "Computer";
 players.push(CPU);
@@ -11,77 +10,87 @@ let player2;
 const menu = document.querySelector(".main-menu");
 const vsCPU = document.querySelector("#versus-cpu");
 const PvP = document.querySelector("#PvP");
-const boardDisplay = document.querySelector(".board");
+const boardContainer = document.querySelector(".board-container");
 const displayCurrentPlayer = document.querySelector(".current-player");
 // const restartButtonContainer = document.querySelector(".restart-button-container");
 let activePlayer;
 
-function mainMenu() {
-  // When player clicks "Versus CPU" option, call initializeVersusCPUGame
-  vsCPU.addEventListener("click", initializeVersusCPUGame);
+// When player clicks "Versus CPU" option, call initializeVersusCPUGame
+vsCPU.addEventListener("click", initializeVersusCPUGame);
 
-  // When player clicks "Two Players" option, call initializeTwoPlayerGame
-  PvP.addEventListener("click", initializePvPGame);
-}
+// When player clicks "Two Players" option, call initializeTwoPlayerGame
+PvP.addEventListener("click", initializePvPGame);
 
 let gameState = {};
 
 // Single player mode
 
-// function initializeVersusCPUGame() {
-//   menu.remove();
-//   setPlayerNames();
-// }
+function initializeVersusCPUGame() {
+  menu.remove();
+  setPlayerName();
+}
 
-// function changeTurnsWithCPU() {
-//   if (activePlayer === player1) {
-//     activePlayer = CPU;
-//   } else {
-//     activePlayer = player1;
-//   }
-// }
+function setPlayerName() {
+  const playerParagraph = document.createElement("p");
+  const playerText = document.createTextNode("Please enter your name: ");
+  playerParagraph.appendChild(playerText);
+  displayCurrentPlayer.appendChild(playerParagraph);
 
-// function displayPlayerAndCPUTurn() {
-//   console.log(activePlayer);
-//   displayCurrentPlayer.innerText = `${activePlayer}\'s turn`;
-// }
+  const playerNameInput = document.createElement("input");
+  playerNameInput.id = "name";
 
-// boardDisplay.addEventListener("click", onSlotClick_vsCPU);
+  const playerSubmitButton = document.createElement("button");
+  playerSubmitButton.innerText = "submit";
 
-// function onSlotClick_vsCPU(event) {
-//   const slot = event.target.closest(".disc");
-//   if (!slot) {
-//     alert("Not a valid space. Please click on a slot.");
-//   } else {
+  displayCurrentPlayer.appendChild(playerNameInput);
+  displayCurrentPlayer.appendChild(playerSubmitButton);
 
-//     dropChipWithCPU(slot);
-//   }
+  playerSubmitButton.addEventListener("click", getPlayerName)
 
-// }
+}
 
-// function dropChipWithCPU(slot) {
-//   if (activePlayer === players[0]) {
-//     if (slot.classList.contains("taken")) {
-//       const spotTaken = document.createTextNode("That spot's taken.");
-//       displayCurrentPlayer.appendChild(spotTaken);
-//     } else {
-//       slot.classList.add("taken");
-//       slot.classList.add("player-one");
-//       changeTurnsWithCPU();
-//       displayPlayerAndCPUTurn();
-//     }
-//   } else {
-//     if (activePlayer === CPU) {
-//       Math.floor(Math.random() * 7);
-//       slot.classList.add("taken");
-//       slot.classList.add("computer");
-//       changeTurnsWithCPU();
-//       displayPlayerAndCPUTurn();
-//     }
-//   }
+function getPlayerName() {
+  const playerSubmitButton = document.querySelector("#name");
+  let name = playerSubmitButton.value;
+  setPlayer(name);
+}
 
-//   fourInARow(slot);
-// }
+function setPlayer(name) {
+  gameState.players = players;
+  const playerSubmitButton = document.querySelector("#name");
+  name = playerSubmitButton.value;
+  player1 = name;
+  players.push(player1);
+  console.log(players);
+  activePlayer = player1;
+  createBoard();
+}
+
+function dropChipWithCPU(slot) {
+  let cellClicked = event.target.cellIndex;
+
+  let row = [];
+  const tableRow = document.getElementsByTagName("tr");
+
+  for (i = 5; i > -1; i--) {
+    if (tableRow[i].children[cellClicked].style.backgroundColor === "white") {
+      row.push(tableRow[i].children[cellClicked]);
+      if (activePlayer === players[1]) {
+        console.log(activePlayer);
+        row[0].style.backgroundColor = "red";
+        console.log(row[0].style.backgroundColor);
+        displayCurrentPlayer.innerText = `${player1}\'s turn`;
+        return activePlayer = players[1];
+      }
+      else {
+        row[0].style.backgroundColor = "yellow";
+        displayCurrentPlayer.innerText = `${CPU}\'s turn`;
+        return activePlayer = players[0];
+      }
+    }
+  }
+
+}
 
 
 // Multiplayer mode
@@ -90,7 +99,6 @@ function initializePvPGame() {
   menu.remove();
   setPlayerOneName();
 }
-
 
 function setPlayerOneName() {
   const playerOneParagraph = document.createElement("p");
@@ -111,15 +119,12 @@ function setPlayerOneName() {
 
 }
 
-// const backButton = document.createElement("input");
-// backButton.setAttribute("type", "submit");
-// displayCurrentPlayer.appendChild(backButton);
-// backButton.addEventListener("click", mainMenu);
 
 function getPlayerOneName() {
   const playerOneSubmitButton = document.querySelector("#name");
   let name = playerOneSubmitButton.value;
   setPlayerOne(name);
+  alert("You will be the red chip.");
 }
 
 function setPlayerOne(name) {
@@ -128,7 +133,6 @@ function setPlayerOne(name) {
   name = playerOneSubmitButton.value;
   player1 = name;
   players.push(player1);
-  console.log(players);
   activePlayer = player1;
   setPlayerTwoName();
 }
@@ -163,6 +167,7 @@ function getPlayerTwoName() {
   const playerTwoNameInput = document.querySelector("#name");
   let name = playerTwoNameInput.value;
   setPlayerTwo(name);
+  alert("You will be the yellow chip.");
 }
 
 function setPlayerTwo(name) {
@@ -171,18 +176,8 @@ function setPlayerTwo(name) {
   name = playerTwoNameInput.value;
   player2 = name;
   players.push(player2);
-  console.log(players);
   createBoard();
 
-}
-
-function changeTurn() {
-
-  if (activePlayer === player1) {
-    activePlayer = player2;
-  } else {
-    activePlayer = player1;
-  }
 }
 
 function displayPlayerTurn() {
@@ -190,97 +185,128 @@ function displayPlayerTurn() {
 }
 
 function createBoard() {
-  const playerTwoParagraph = document.querySelector("p");
-  playerTwoParagraph.remove();
-  const playerTwoNameInput = document.querySelector("input");
-  playerTwoNameInput.remove();
-  const playerTwoSubmitButton = document.querySelector("button");
-  playerTwoSubmitButton.remove();
-
   displayPlayerTurn();
 
-  for (let i = 1; i < 8; i++) {
-    const divColumn = document.createElement("div");
-    divColumn.classList.add("column");
+  const table = document.createElement("table");
 
-    for (let j = 1; j < 7; j++) {
-      const divSlot = document.createElement("div");
-      divSlot.classList.add("disc");
-      divColumn.appendChild(divSlot);
+  for (let row = 1; row < 7; row++) {
+    const divRow = document.createElement("tr");
+
+    for (let column = 1; column < 8; column++) {
+      const divCell = document.createElement("td");
+      divCell.classList.add("slot");
+      divRow.appendChild(divCell);
     }
-    boardDisplay.appendChild(divColumn);
+    table.appendChild(divRow);
   }
+  boardContainer.appendChild(table);
 
+  let tableData = document.getElementsByTagName("td");
+
+  Array.prototype.forEach.call(tableData, (cell) => {
+    cell.addEventListener("click", dropChip);
+    cell.style.backgroundColor = "white";
+  });
 }
 
-boardDisplay.addEventListener("click", onSlotClick);
 
-function onSlotClick(event) {
-  const slot = event.target.closest(".disc");
-  if (!slot) {
-    alert("Not a valid space. Please click on a slot.");
-  } else {
+function dropChip(event) {
+  let cellClicked = event.target.cellIndex;
 
-    dropChip(slot);
-  }
+  let droppedRow = -1;
 
-}
+  let row = [];
+  const tableRow = document.getElementsByTagName("tr");
 
-function dropChip(slot) {
-  if (activePlayer === players[1]) {
-    if (slot.classList.contains("taken")) {
-      const spotTaken = document.createTextNode("That spot's taken.");
-      displayCurrentPlayer.appendChild(spotTaken);
-    } else {
-      slot.classList.add("taken");
-      slot.classList.add("player-one");
-      changeTurn();
-      displayPlayerTurn();
-    }
-  } else {
-    if (activePlayer === players[2]) {
-      if (slot.classList.contains("taken")) {
-        const spotTaken = document.createTextNode("That spot's taken.");
-        displayCurrentPlayer.appendChild(spotTaken);
+  for (i = 5; i > -1; i--) {
+    if (tableRow[i].children[cellClicked].style.backgroundColor === "white") {
+      droppedRow = i;
+      console.log(droppedRow, cellClicked);
+      console.log(getBoard(event.target));
+      row.push(tableRow[i].children[cellClicked]);
+      if (activePlayer === players[1]) {
+        console.log(activePlayer);
+        row[0].style.backgroundColor = "red";
+        checkBoard(droppedRow, cellClicked, "red");
+        displayCurrentPlayer.innerText = `${player2}\'s turn`;
+        return activePlayer = players[2];
       } else {
-        slot.classList.add("taken");
-        slot.classList.add("player-two");
-        changeTurn();
-        displayPlayerTurn();
+        row[0].style.backgroundColor = "yellow";
+        checkBoard(droppedRow, cellClicked, "yellow");
+        displayCurrentPlayer.innerText = `${player1}\'s turn`;
+        return activePlayer = players[1];
       }
     }
   }
-
-  fourInARow(slot);
-
 }
 
-function fourInARow(slot) {
-  let numSlotsTaken = 0;
-  while (numSlotsTaken = 4) {
-    if ((slot === "taken") && (slot === "player-one")) {
-      return `${players[0]} wins!`;
-    } else {
-      return `${players[1]} wins!`;
+function getBoard() {
+  displayPlayerTurn();
+
+  const table = document.getElementsByTagName("table");
+
+  const rows = document.getElementsByTagName("tr");
+
+  const board = [];
+
+  for (let row = 0; row < 6; row++) {
+    const cells = rows[row].getElementsByTagName("td");
+    const boardRow = [];
+    for (let cell = 0; cell < 7; cell++) {
+      boardRow.push(cells[cell].style.backgroundColor);
+
     }
-
+    board.push(boardRow);
   }
+  return board;
+
 }
 
-// function displayRestartButton() {
-//   const restartButton = document.createElement("button");
-//   restartButton.id = "restart";
-//   restartButtonContainer.append(restartButton);
-// }
+function getMatchingChipsLeft(connectFourBoard, moveRow, moveColumn, color) {
+  const rowArray = connectFourBoard[moveRow];
 
-// function playAgain() {
-//   gameState = {};
-//   restartButtonContainer.style.display = "none";
-//   initializeTwoPlayerGame();
-// }
+  let matchingChips = 0;
 
-// mainMenu();
+  for (col = moveColumn - 1; col >= 0; col--) {
+    if (rowArray[col] !== color) {
+      break;
+    } else {
+      matchingChips++;
+    }
+  }
 
-// const restartButton = document.querySelector("#restart");
+  return matchingChips;
+}
 
-  // restartButton.addEventListener("click", playAgain);
+function getMatchingChipsRight(connectFourBoard, moveRow, moveColumn, color) {
+  const rowArray = connectFourBoard[moveRow];
+
+  let matchingChips = 0;
+
+  for (col = moveColumn + 1; col < rowArray.length; col++) {
+    if (rowArray[col] !== color) {
+      break;
+    } else {
+      matchingChips++;
+    }
+  }
+
+  return matchingChips;
+}
+
+function getMatchingChipsHorizontal(connectFourBoard, moveRow, moveColumn, color) {
+  return getMatchingChipsLeft(connectFourBoard, moveRow, moveColumn, color) + getMatchingChipsRight(connectFourBoard, moveRow, moveColumn, color) + 1;
+}
+
+
+function checkBoard(moveRow, moveColumn, color) {
+  const connectFourBoard = getBoard();
+  const matchingToLeft = getMatchingChipsLeft(connectFourBoard, moveRow, moveColumn, color);
+  const matchingToRight = getMatchingChipsRight(connectFourBoard, moveRow, moveColumn, color);
+  const matchingHorizontal = getMatchingChipsHorizontal(connectFourBoard, moveRow, moveColumn, color);
+  console.log(`Checking left of ${moveColumn}`);
+  console.log(`Checking right of ${moveColumn}`);
+  console.log(`${matchingToLeft} ${color} Chips found to the left`);
+  console.log(`${matchingToRight} ${color} Chips found to the right`);
+  console.log(`${matchingHorizontal} ${color} Chips found`);
+}

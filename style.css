@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Teko&display=swap');
+
 * {
     box-sizing: border-box;
 }
@@ -5,6 +7,16 @@
 body {
     margin: 0 auto;
     text-align: center;
+    background-color:gray;
+}
+
+h1 {
+    font-family: 'Dancing Script';
+}
+
+h3, p {
+    font-family: 'Teko', sans-serif;
+    font-weight: 100;
 }
 
 .main-menu {
@@ -21,47 +33,35 @@ form {
 button {
     background-color: blue;
     color: white;
-    margin: 0.75rem 36.75rem;
     padding: 0.5rem;
     border-radius: 5px;
 }
 
 /* Connect Four board CSS */
 
-.board {
+.board-container {
     margin-left: 300px;
 }
 
-.column {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 10px 10px;
-    float: left;
-    background-color: #0079BB;
-    width: 10%;
-    padding: 10px;
-    height: 400px;
+table {
+    margin-left: auto;
+    margin-right: auto;
 }
 
-.row::after {
-    content: "";
-    display: table;
-    clear: both;
-}
-
-.disc {
+.board-container {
+    width: 500px;
+    height: auto;
     margin: 0 auto;
-    background-color: #ffffff;
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-} 
-
-.player-one {
-    background-color: red;
 }
 
-.player-two, .computer {
-    background-color: yellow;
+.board-container table {
+    background-color: #0079BB;
+    padding: 0.5rem;
+}
+
+.board-container table tr td {
+    background-color: white;
+    width: 500px;
+    height: 70px;
+    border-radius: 50%;
 }
