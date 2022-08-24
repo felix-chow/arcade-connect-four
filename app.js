@@ -96,12 +96,14 @@ function dropChipWithCPU(slot) {
 // Multiplayer mode
 
 function initializePvPGame() {
-  menu.remove();
+  menu.style.display = "none";
   setPlayerOneName();
 }
 
 function setPlayerOneName() {
+  console.log(players);
   const playerOneParagraph = document.createElement("p");
+  playerOneParagraph.id = "player-text-display";
   const playerOneText = document.createTextNode("Player 1, please enter your name: ");
   playerOneParagraph.appendChild(playerOneText);
   displayCurrentPlayer.appendChild(playerOneParagraph);
@@ -110,6 +112,7 @@ function setPlayerOneName() {
   playerOneNameInput.id = "name";
 
   const playerOneSubmitButton = document.createElement("button");
+  playerOneSubmitButton.classList.add("submit");
   playerOneSubmitButton.innerText = "submit";
 
   displayCurrentPlayer.appendChild(playerOneNameInput);
@@ -121,16 +124,17 @@ function setPlayerOneName() {
 
 
 function getPlayerOneName() {
-  const playerOneSubmitButton = document.querySelector("#name");
-  let name = playerOneSubmitButton.value;
+  const playerOneNameInput = document.querySelector("#name");
+  const name = playerOneNameInput.value;
   setPlayerOne(name);
   alert("You will be the red chip.");
 }
 
 function setPlayerOne(name) {
   gameState.players = players;
-  const playerOneSubmitButton = document.querySelector("#name");
-  name = playerOneSubmitButton.value;
+  console.log(gameState);
+  const playerOneNameInput = document.querySelector("#name");
+  name = playerOneNameInput.value;
   player1 = name;
   players.push(player1);
   activePlayer = player1;
@@ -138,12 +142,12 @@ function setPlayerOne(name) {
 }
 
 function setPlayerTwoName() {
-  const playerOneParagraph = document.querySelector("p");
-  playerOneParagraph.remove();
-  const playerOneNameInput = document.querySelector("input");
-  playerOneNameInput.remove();
-  const playerOneSubmitButton = document.querySelector("button");
-  playerOneSubmitButton.remove();
+  const playerOneParagraph = document.querySelector("#player-text-display");
+  playerOneParagraph.style.display = "none";
+  const playerOneNameInput = document.querySelector("#name");
+  playerOneNameInput.style.display = "none";
+  const playerOneSubmitButton = document.querySelector(".submit");
+  playerOneSubmitButton.style.display = "none";
 
   const playerTwoParagraph = document.createElement("p");
   const playerTwoText = document.createTextNode("Player 2, please enter your name: ");
@@ -154,6 +158,7 @@ function setPlayerTwoName() {
   playerTwoNameInput.id = "name";
 
   const playerTwoSubmitButton = document.createElement("button");
+  playerOneSubmitButton.classList.add("submit");
   playerTwoSubmitButton.innerText = "submit";
 
   displayCurrentPlayer.appendChild(playerTwoNameInput);
@@ -165,29 +170,253 @@ function setPlayerTwoName() {
 
 function getPlayerTwoName() {
   const playerTwoNameInput = document.querySelector("#name");
-  let name = playerTwoNameInput.value;
+  const name = playerTwoNameInput.value;
+  console.log(name);
   setPlayerTwo(name);
   alert("You will be the yellow chip.");
 }
 
 function setPlayerTwo(name) {
   gameState.players = players;
+  console.log(gameState);
   const playerTwoNameInput = document.querySelector("#name");
   name = playerTwoNameInput.value;
   player2 = name;
   players.push(player2);
+  activePlayer = player2;
   createBoard();
-
 }
 
 function displayPlayerTurn() {
   displayCurrentPlayer.innerText = `${activePlayer}\'s turn`;
 }
 
+function getBoard() {
+  displayPlayerTurn();
+
+  const rows = document.getElementsByTagName("tr");
+
+  const board = [];
+
+  for (let row = 0; row < 6; row++) {
+    const cells = rows[row].getElementsByTagName("td");
+    const boardRow = [];
+    for (let cell = 0; cell < 7; cell++) {
+      boardRow.push(cells[cell].style.backgroundColor);
+
+    }
+    board.push(boardRow);
+  }
+  return board;
+
+}
+
+function getMatchingChipsDownward(connectFourBoard, moveRow, color) {
+
+
+  let matchingChips = 0;
+
+  console.table(connectFourBoard);
+  console.log(moveRow);
+
+  // Check every row for that column
+  for (row = moveRow + 1; row < connectFourBoard.length; row++) {
+    const rowArray = connectFourBoard[moveRow];
+    if (rowArray[col] !== color) {
+      console.log(rowArray);
+      console.log(rowArray[col]);
+      break;
+    } else {
+      matchingChips++;
+    }
+  }
+
+  return matchingChips;
+}
+
+// function columnFull(connectFourBoard, moveRow, moveColumn, color) {
+//   const colArray = connectFourBoard[moveColumn];
+
+//   console.log(colArray);
+
+//   for (row = moveRow + 1; row < colArray.length; row++) {
+
+//       color++;
+//   }
+
+//   return color;
+// }
+
+function getMatchingChipsLeft(connectFourBoard, moveRow, moveColumn, color) {
+  const rowArray = connectFourBoard[moveRow];
+
+  let matchingChips = 0;
+
+  console.log(rowArray);
+
+  for (col = moveColumn - 1; col >= 0; col--) {
+    if (rowArray[col] !== color) {
+      break;
+    } else {
+      matchingChips++;
+    }
+  }
+
+  return matchingChips;
+}
+
+function getMatchingChipsRight(connectFourBoard, moveRow, moveColumn, color) {
+  const rowArray = connectFourBoard[moveRow];
+  console.log(rowArray);
+
+  let matchingChips = 0;
+
+  for (col = moveColumn + 1; col < rowArray.length; col++) {
+    if (rowArray[col] !== color) {
+      break;
+    } else {
+      matchingChips++;
+    }
+  }
+
+  return matchingChips;
+}
+
+function getMatchingChipsDiagonalLeftUp(connectFourBoard, moveRow, moveColumn, color) {
+
+  let matchingChips = 0;
+
+  console.table(connectFourBoard);
+  console.log(moveRow);
+
+  for (row = moveRow - 1; row >= 0; row--) {
+    for (col = moveColumn - 1; col >= 0; col--) {
+      if (connectFourBoard[row][col] !== color) {
+        break;
+      } else {
+        matchingChips++;
+      }
+    }
+    
+  }
+  return matchingChips;
+}
+
+function getMatchingChipsDiagonalLeftUp(connectFourBoard, moveRow, moveColumn, color) {
+
+  let matchingChips = 0;
+
+  console.table(connectFourBoard);
+  console.log(moveRow);
+
+  for (row = moveRow - 1; row >= 0; row--) {
+    for (col = moveColumn - 1; col >= 0; col--) {
+      if (connectFourBoard[row][col] !== color) {
+        break;
+      } else {
+        matchingChips++;
+      }
+    }
+    
+  }
+  return matchingChips;
+}
+
+function getMatchingChipsDiagonalRightUp(connectFourBoard, moveRow, moveColumn, color) {
+
+  let matchingChips = 0;
+
+  console.table(connectFourBoard);
+  console.log(moveRow);
+
+  for (row = moveRow - 1; row <= 0; row++) {
+    for (col = moveColumn - 1; col <= 0; col++) {
+      if (connectFourBoard[row][col] !== color) {
+        break;
+      } else {
+        matchingChips++;
+      }
+    }
+    
+  }
+  return matchingChips;
+}
+
+// function DrawCheck(connectFourBoard, moveRow, moveColumn, color) {
+//   const rowArray = connectFourBoard[moveRow];
+
+//   let matchingChips = 0;
+
+//   for (col = moveColumn + 1; col < rowArray.length; col++) {
+//     for (col = moveColumn - 1; col >= 0; col--) {
+//       if (rowArray[col] !== color) {
+//         break;
+//       } else {
+//         matchingChips++;
+//       }
+
+//     }
+//   }
+
+//   return matchingChips;
+// }
+
+function getMatchingChipsHorizontal(connectFourBoard, moveRow, moveColumn, color) {
+  return getMatchingChipsLeft(connectFourBoard, moveRow, moveColumn, color) + getMatchingChipsRight(connectFourBoard, moveRow, moveColumn, color) + 1;
+}
+
+function checkBoard(connectFourBoard, moveRow, moveColumn, color) {
+  const matchingDownward = getMatchingChipsDownward(connectFourBoard, moveRow, color);
+  const matchingToLeft = getMatchingChipsLeft(connectFourBoard, moveRow, moveColumn, color);
+  const matchingToRight = getMatchingChipsRight(connectFourBoard, moveRow, moveColumn, color);
+  const matchingHorizontal = getMatchingChipsHorizontal(connectFourBoard, moveRow, moveColumn, color);
+  const matchingDiagonalLeftUp = getMatchingChipsDiagonalLeftUp(connectFourBoard, moveRow, moveColumn, color);
+  const matchingDiagonalRightUp = getMatchingChipsDiagonalRightUp(connectFourBoard, moveRow, moveColumn, color);
+  // const fullColumn = columnFull(connectFourBoard, moveRow, moveColumn, color);
+  // const drawCheck = DrawCheck(connectFourBoard, moveRow, moveColumn, color);
+  console.log(`Checking below ${moveRow}`);
+  console.log(`Checking left of ${moveColumn}`);
+  console.log(`Checking right of ${moveColumn}`);
+  console.log(`Checking diagonally up to the left of ${moveColumn}`);
+  console.log(`${matchingDownward} ${color} Chips found below`);
+  console.log(`${matchingToLeft} ${color} Chips found to the left`);
+  console.log(`${matchingToRight} ${color} Chips found to the right`);
+  console.log(`${matchingDiagonalLeftUp} ${color} Chips found diagonally up to the left of`);
+  console.log(`${matchingDiagonalRightUp} ${color} Chips found diagonally up to the right of`);
+  console.log(`${matchingHorizontal} ${color} Chips found`);
+
+  if (matchingHorizontal === 4 || matchingDownward === 4 || matchingDiagonalLeftUp === 4) {
+    if (color === "red") {
+      alert(`${player1} wins!`);
+    }
+    else {
+      alert(`${player2} wins!`);
+
+    }
+  }
+  // else if (!matchingHorizontal) {
+  //   console.log("Draw!");
+  // }
+
+  // if (fullColumn) {
+  //   alert ("Pick another column.");
+  // }
+}
+
+
+// isBoardFull()
+// Loop through every row, column for an empty space
+
+// Function for if column is full
+// Does row array contain white (using .contain() function)
+
+// If chip is dropped and not winner and board is full, alert that it's a draw
+
 function createBoard() {
   displayPlayerTurn();
 
   const table = document.createElement("table");
+  table.classList.add("connect-four-board");
 
   for (let row = 1; row < 7; row++) {
     const divRow = document.createElement("tr");
@@ -200,6 +429,21 @@ function createBoard() {
     table.appendChild(divRow);
   }
   boardContainer.appendChild(table);
+
+  
+  const backBtn = document.createElement("button");
+  backBtn.classList.add("back-to-menu");
+  boardContainer.appendChild(backBtn);
+  backBtn.innerText = "Back to Menu";
+  // backBtn.addEventListener("click", backToMenu);
+
+  const restartBtn = document.createElement("button");
+  restartBtn.classList.add("restart-game");
+  boardContainer.appendChild(restartBtn);
+  restartBtn.innerText = "Restart Game";
+  restartBtn.addEventListener("click", restartGame);
+
+
 
   let tableData = document.getElementsByTagName("td");
 
@@ -227,12 +471,13 @@ function dropChip(event) {
       if (activePlayer === players[1]) {
         console.log(activePlayer);
         row[0].style.backgroundColor = "red";
-        checkBoard(droppedRow, cellClicked, "red");
+        checkBoard(getBoard(), droppedRow, cellClicked, "red");
         displayCurrentPlayer.innerText = `${player2}\'s turn`;
+        
         return activePlayer = players[2];
       } else {
         row[0].style.backgroundColor = "yellow";
-        checkBoard(droppedRow, cellClicked, "yellow");
+        checkBoard(getBoard(), droppedRow, cellClicked, "yellow");
         displayCurrentPlayer.innerText = `${player1}\'s turn`;
         return activePlayer = players[1];
       }
@@ -240,73 +485,20 @@ function dropChip(event) {
   }
 }
 
-function getBoard() {
-  displayPlayerTurn();
+// function backToMenu() {
+//   menu.style.display = "flex";
+// }
 
-  const table = document.getElementsByTagName("table");
-
-  const rows = document.getElementsByTagName("tr");
-
-  const board = [];
-
-  for (let row = 0; row < 6; row++) {
-    const cells = rows[row].getElementsByTagName("td");
-    const boardRow = [];
-    for (let cell = 0; cell < 7; cell++) {
-      boardRow.push(cells[cell].style.backgroundColor);
-
-    }
-    board.push(boardRow);
-  }
-  return board;
-
+function restartGame(connectFourBoard) {
+  const boardTable = document.querySelector(".connect-four-board");
+  const backBtn = document.querySelector(".back-to-menu");
+  const restartBtn = document.querySelector(".restart-game");
+  displayCurrentPlayer.style.display = "none";
+  boardTable.style.display = "none";
+  backBtn.style.display = "none";
+  restartBtn.style.display = "none";
+  createBoard();
+  console.log(players);
 }
 
-function getMatchingChipsLeft(connectFourBoard, moveRow, moveColumn, color) {
-  const rowArray = connectFourBoard[moveRow];
-
-  let matchingChips = 0;
-
-  for (col = moveColumn - 1; col >= 0; col--) {
-    if (rowArray[col] !== color) {
-      break;
-    } else {
-      matchingChips++;
-    }
-  }
-
-  return matchingChips;
-}
-
-function getMatchingChipsRight(connectFourBoard, moveRow, moveColumn, color) {
-  const rowArray = connectFourBoard[moveRow];
-
-  let matchingChips = 0;
-
-  for (col = moveColumn + 1; col < rowArray.length; col++) {
-    if (rowArray[col] !== color) {
-      break;
-    } else {
-      matchingChips++;
-    }
-  }
-
-  return matchingChips;
-}
-
-function getMatchingChipsHorizontal(connectFourBoard, moveRow, moveColumn, color) {
-  return getMatchingChipsLeft(connectFourBoard, moveRow, moveColumn, color) + getMatchingChipsRight(connectFourBoard, moveRow, moveColumn, color) + 1;
-}
-
-
-function checkBoard(moveRow, moveColumn, color) {
-  const connectFourBoard = getBoard();
-  const matchingToLeft = getMatchingChipsLeft(connectFourBoard, moveRow, moveColumn, color);
-  const matchingToRight = getMatchingChipsRight(connectFourBoard, moveRow, moveColumn, color);
-  const matchingHorizontal = getMatchingChipsHorizontal(connectFourBoard, moveRow, moveColumn, color);
-  console.log(`Checking left of ${moveColumn}`);
-  console.log(`Checking right of ${moveColumn}`);
-  console.log(`${matchingToLeft} ${color} Chips found to the left`);
-  console.log(`${matchingToRight} ${color} Chips found to the right`);
-  console.log(`${matchingHorizontal} ${color} Chips found`);
-}
+menu.style.display = "flex";
