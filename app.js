@@ -99,9 +99,6 @@ function initializePvPGame() {
   setPlayerOneName();
 }
 
-// Just have one input field for player name input and clear after player one submits.
-// Player one name will still be in array.
-
 function setPlayerOneName() {
   console.log(players);
   const playerOneParagraph = document.createElement("label");
