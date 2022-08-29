@@ -12,7 +12,6 @@ const vsCPU = document.querySelector("#versus-cpu");
 const PvP = document.querySelector("#PvP");
 const boardContainer = document.querySelector(".board-container");
 const displayCurrentPlayer = document.querySelector(".current-player");
-// const restartButtonContainer = document.querySelector(".restart-button-container");
 let activePlayer;
 
 // When player clicks "Versus CPU" option, call initializeVersusCPUGame
@@ -100,88 +99,91 @@ function initializePvPGame() {
   setPlayerOneName();
 }
 
+// Just have one input field for player name input and clear after player one submits.
+// Player one name will still be in array.
+
 function setPlayerOneName() {
   console.log(players);
-  const playerOneParagraph = document.createElement("p");
-  playerOneParagraph.id = "player-text-display";
+  const playerOneParagraph = document.createElement("label");
+  playerOneParagraph.classList.add("player-one-label");
   const playerOneText = document.createTextNode("Player 1, please enter your name: ");
   playerOneParagraph.appendChild(playerOneText);
   displayCurrentPlayer.appendChild(playerOneParagraph);
 
-  const playerOneNameInput = document.createElement("input");
-  playerOneNameInput.id = "name";
+  let playerNameInput = document.createElement("input");
+  playerNameInput.classList.add("player-input");
 
   const playerOneSubmitButton = document.createElement("button");
   playerOneSubmitButton.classList.add("submit");
-  playerOneSubmitButton.innerText = "submit";
+  playerOneSubmitButton.innerText = "Submit";
 
-  displayCurrentPlayer.appendChild(playerOneNameInput);
+  displayCurrentPlayer.appendChild(playerNameInput);
   displayCurrentPlayer.appendChild(playerOneSubmitButton);
 
   playerOneSubmitButton.addEventListener("click", getPlayerOneName)
 
 }
 
+// Retrieve player 1's name from input box
 
 function getPlayerOneName() {
-  const playerOneNameInput = document.querySelector("#name");
-  const name = playerOneNameInput.value;
+  let playerNameInput = document.querySelector(".player-input");
+  let name = playerNameInput.value;
   setPlayerOne(name);
   alert("You will be the red chip.");
+  playerNameInput.value = "";
 }
 
-function setPlayerOne(name) {
+// Set player 1 name
+
+function setPlayerOne(playerOneName) {
   gameState.players = players;
   console.log(gameState);
-  const playerOneNameInput = document.querySelector("#name");
-  name = playerOneNameInput.value;
-  player1 = name;
+  let playerNameInput = document.querySelector(".player-input");
+  playerOneName = playerNameInput.value;
+  player1 = playerOneName;
   players.push(player1);
   activePlayer = player1;
   setPlayerTwoName();
 }
 
 function setPlayerTwoName() {
-  const playerOneParagraph = document.querySelector("#player-text-display");
+  const playerOneParagraph = document.querySelector(".player-one-label");
   playerOneParagraph.style.display = "none";
-  const playerOneNameInput = document.querySelector("#name");
-  playerOneNameInput.style.display = "none";
   const playerOneSubmitButton = document.querySelector(".submit");
   playerOneSubmitButton.style.display = "none";
-
-  const playerTwoParagraph = document.createElement("p");
+  const playerTwoParagraph = document.createElement("label");
+  playerTwoParagraph.classList.add("player-two-label")
   const playerTwoText = document.createTextNode("Player 2, please enter your name: ");
   playerTwoParagraph.appendChild(playerTwoText);
   displayCurrentPlayer.appendChild(playerTwoParagraph);
 
-  const playerTwoNameInput = document.createElement("input");
-  playerTwoNameInput.id = "name";
+  let playerNameInput = document.querySelector(".player-input");
 
   const playerTwoSubmitButton = document.createElement("button");
-  playerOneSubmitButton.classList.add("submit");
-  playerTwoSubmitButton.innerText = "submit";
-
-  displayCurrentPlayer.appendChild(playerTwoNameInput);
+  playerTwoSubmitButton.classList.add("submit");
+  playerTwoSubmitButton.innerText = "Submit";
+  displayCurrentPlayer.appendChild(playerNameInput);
   displayCurrentPlayer.appendChild(playerTwoSubmitButton);
-
   playerTwoSubmitButton.addEventListener("click", getPlayerTwoName)
 
 }
 
 function getPlayerTwoName() {
-  const playerTwoNameInput = document.querySelector("#name");
-  const name = playerTwoNameInput.value;
-  console.log(name);
-  setPlayerTwo(name);
+  let playerNameInput = document.querySelector(".player-input");
+  console.log(playerNameInput.value);
+  let playerTwoName = playerNameInput.value;
+  console.log(playerTwoName);
+  setPlayerTwo(playerTwoName);
   alert("You will be the yellow chip.");
 }
 
 function setPlayerTwo(name) {
   gameState.players = players;
   console.log(gameState);
-  const playerTwoNameInput = document.querySelector("#name");
-  name = playerTwoNameInput.value;
-  player2 = name;
+  let playerNameInput = document.querySelector(".player-input");
+  playerTwoName = playerNameInput.value;
+  player2 = playerTwoName;
   players.push(player2);
   activePlayer = player2;
   createBoard();
@@ -211,7 +213,7 @@ function getBoard() {
 
 }
 
-function getMatchingChipsDownward(connectFourBoard, moveRow, color) {
+function getMatchingChipsDownward(connectFourBoard, moveColumn, moveRow, color) {
 
 
   let matchingChips = 0;
@@ -222,9 +224,10 @@ function getMatchingChipsDownward(connectFourBoard, moveRow, color) {
   // Check every row for that column
   for (row = moveRow + 1; row < connectFourBoard.length; row++) {
     const rowArray = connectFourBoard[moveRow];
-    if (rowArray[col] !== color) {
+    if (rowArray[moveColumn] !== color) {
+      console.log("Clicked!");
       console.log(rowArray);
-      console.log(rowArray[col]);
+      console.log(rowArray[moveColumn]);
       break;
     } else {
       matchingChips++;
@@ -394,13 +397,6 @@ function checkBoard(connectFourBoard, moveRow, moveColumn, color) {
 
     }
   }
-  // else if (!matchingHorizontal) {
-  //   console.log("Draw!");
-  // }
-
-  // if (fullColumn) {
-  //   alert ("Pick another column.");
-  // }
 }
 
 
@@ -435,7 +431,6 @@ function createBoard() {
   backBtn.classList.add("back-to-menu");
   boardContainer.appendChild(backBtn);
   backBtn.innerText = "Back to Menu";
-  // backBtn.addEventListener("click", backToMenu);
 
   const restartBtn = document.createElement("button");
   restartBtn.classList.add("restart-game");
@@ -485,20 +480,11 @@ function dropChip(event) {
   }
 }
 
-// function backToMenu() {
-//   menu.style.display = "flex";
-// }
-
-function restartGame(connectFourBoard) {
-  const boardTable = document.querySelector(".connect-four-board");
-  const backBtn = document.querySelector(".back-to-menu");
-  const restartBtn = document.querySelector(".restart-game");
-  displayCurrentPlayer.style.display = "none";
-  boardTable.style.display = "none";
-  backBtn.style.display = "none";
-  restartBtn.style.display = "none";
-  createBoard();
-  console.log(players);
+function restartGame() {
+  const slots = document.querySelectorAll(".slot");
+  console.log(slots);
+  slots.forEach(slot => {
+    slot.style.backgroundColor = "white";
+  });
 }
-
 menu.style.display = "flex";
