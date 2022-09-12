@@ -65,7 +65,12 @@ function setPlayer(name) {
   createBoard();
 }
 
-function dropChipWithCPU(slot) {
+// CPU Functionality
+
+// Play chip on random open slots
+// Find any column that's available
+
+function CPUDropChip(slot) {
   let cellClicked = event.target.cellIndex;
 
   let row = [];
