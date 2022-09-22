@@ -12,6 +12,7 @@ const vsCPU = document.querySelector("#versus-cpu");
 const PvP = document.querySelector("#PvP");
 const boardContainer = document.querySelector(".board-container");
 const displayCurrentPlayer = document.querySelector(".current-player");
+let isCPUOpponent = false;
 let activePlayer;
 
 // When player clicks "Versus CPU" option, call initializeVersusCPUGame
@@ -25,15 +26,18 @@ let gameState = {};
 // Single player mode
 
 function initializeVersusCPUGame() {
-  menu.remove();
+  menu.style.display = "none";
   setPlayerName();
+  isCPUOpponent = true;
 }
 
 function setPlayerName() {
-  const playerParagraph = document.createElement("p");
+  console.log(players);
+  const playerLabel = document.createElement("label");
+  playerLabel.classList.add("player-one-label");
   const playerText = document.createTextNode("Please enter your name: ");
-  playerParagraph.appendChild(playerText);
-  displayCurrentPlayer.appendChild(playerParagraph);
+  playerLabel.appendChild(playerText);
+  displayCurrentPlayer.appendChild(playerLabel);
 
   const playerNameInput = document.createElement("input");
   playerNameInput.id = "name";
@@ -65,36 +69,7 @@ function setPlayer(name) {
   createBoard();
 }
 
-// CPU Functionality
 
-// Play chip on random open slots
-// Find any column that's available
-
-function CPUDropChip(slot) {
-  let cellClicked = event.target.cellIndex;
-
-  let row = [];
-  const tableRow = document.getElementsByTagName("tr");
-
-  for (i = 5; i > -1; i--) {
-    if (tableRow[i].children[cellClicked].style.backgroundColor === "white") {
-      row.push(tableRow[i].children[cellClicked]);
-      if (activePlayer === players[1]) {
-        console.log(activePlayer);
-        row[0].style.backgroundColor = "red";
-        console.log(row[0].style.backgroundColor);
-        displayCurrentPlayer.innerText = `${player1}\'s turn`;
-        return activePlayer = players[1];
-      }
-      else {
-        row[0].style.backgroundColor = "yellow";
-        displayCurrentPlayer.innerText = `${CPU}\'s turn`;
-        return activePlayer = players[0];
-      }
-    }
-  }
-
-}
 
 
 // Multiplayer mode
@@ -109,11 +84,11 @@ function initializePvPGame() {
 
 function setPlayerOneName() {
   console.log(players);
-  const playerOneParagraph = document.createElement("label");
-  playerOneParagraph.classList.add("player-one-label");
+  const playerOneLabel = document.createElement("label");
+  playerOneLabel.classList.add("player-one-label");
   const playerOneText = document.createTextNode("Player 1, please enter your name: ");
-  playerOneParagraph.appendChild(playerOneText);
-  displayCurrentPlayer.appendChild(playerOneParagraph);
+  playerOneLabel.appendChild(playerOneText);
+  displayCurrentPlayer.appendChild(playerOneLabel);
 
   let playerNameInput = document.createElement("input");
   playerNameInput.classList.add("player-input");
@@ -153,15 +128,15 @@ function setPlayerOne(playerOneName) {
 }
 
 function setPlayerTwoName() {
-  const playerOneParagraph = document.querySelector(".player-one-label");
-  playerOneParagraph.style.display = "none";
+  const playerOneLabel = document.querySelector(".player-one-label");
+  playerOneLabel.style.display = "none";
   const playerOneSubmitButton = document.querySelector(".submit");
   playerOneSubmitButton.style.display = "none";
-  const playerTwoParagraph = document.createElement("label");
-  playerTwoParagraph.classList.add("player-two-label")
+  const playerTwoLabel = document.createElement("label");
+  playerTwoLabel.classList.add("player-two-label")
   const playerTwoText = document.createTextNode("Player 2, please enter your name: ");
-  playerTwoParagraph.appendChild(playerTwoText);
-  displayCurrentPlayer.appendChild(playerTwoParagraph);
+  playerTwoLabel.appendChild(playerTwoText);
+  displayCurrentPlayer.appendChild(playerTwoLabel);
 
   let playerNameInput = document.querySelector(".player-input");
 
@@ -218,19 +193,20 @@ function getBoard() {
 
 }
 
-function getMatchingChipsDownward(connectFourBoard, moveColumn, moveRow, color) {
+function getMatchingChipsDownward(connectFourBoard, moveRow, moveColumn, color) {
 
 
   let matchingChips = 0;
 
   console.table(connectFourBoard);
   console.log(moveRow);
+  console.log(connectFourBoard.length);
 
   // Check every row for that column
   for (row = moveRow + 1; row < connectFourBoard.length; row++) {
     const rowArray = connectFourBoard[moveRow];
+    console.log(color);
     if (rowArray[moveColumn] !== color) {
-      console.log("Clicked!");
       console.log(rowArray);
       console.log(rowArray[moveColumn]);
       break;
@@ -241,19 +217,6 @@ function getMatchingChipsDownward(connectFourBoard, moveColumn, moveRow, color) 
 
   return matchingChips;
 }
-
-// function columnFull(connectFourBoard, moveRow, moveColumn, color) {
-//   const colArray = connectFourBoard[moveColumn];
-
-//   console.log(colArray);
-
-//   for (row = moveRow + 1; row < colArray.length; row++) {
-
-//       color++;
-//   }
-
-//   return color;
-// }
 
 function getMatchingChipsLeft(connectFourBoard, moveRow, moveColumn, color) {
   const rowArray = connectFourBoard[moveRow];
@@ -266,6 +229,7 @@ function getMatchingChipsLeft(connectFourBoard, moveRow, moveColumn, color) {
     if (rowArray[col] !== color) {
       break;
     } else {
+      console.log("test");
       matchingChips++;
     }
   }
@@ -297,7 +261,7 @@ function getMatchingChipsDiagonalLeftUp(connectFourBoard, moveRow, moveColumn, c
   console.table(connectFourBoard);
   console.log(moveRow);
 
-  for (row = moveRow - 1; row >= 0; row--) {
+  for (row = moveRow + 1; row < connectFourBoard.length ; row++) {
     for (col = moveColumn - 1; col >= 0; col--) {
       if (connectFourBoard[row][col] !== color) {
         break;
@@ -305,27 +269,7 @@ function getMatchingChipsDiagonalLeftUp(connectFourBoard, moveRow, moveColumn, c
         matchingChips++;
       }
     }
-    
-  }
-  return matchingChips;
-}
 
-function getMatchingChipsDiagonalLeftUp(connectFourBoard, moveRow, moveColumn, color) {
-
-  let matchingChips = 0;
-
-  console.table(connectFourBoard);
-  console.log(moveRow);
-
-  for (row = moveRow - 1; row >= 0; row--) {
-    for (col = moveColumn - 1; col >= 0; col--) {
-      if (connectFourBoard[row][col] !== color) {
-        break;
-      } else {
-        matchingChips++;
-      }
-    }
-    
   }
   return matchingChips;
 }
@@ -337,51 +281,49 @@ function getMatchingChipsDiagonalRightUp(connectFourBoard, moveRow, moveColumn, 
   console.table(connectFourBoard);
   console.log(moveRow);
 
-  for (row = moveRow - 1; row <= 0; row++) {
-    for (col = moveColumn - 1; col <= 0; col++) {
+  for (row = moveRow + 1; row < connectFourBoard.length; row++) {
+    for (col = moveColumn - 1; col <= 0; col--) {
       if (connectFourBoard[row][col] !== color) {
         break;
       } else {
         matchingChips++;
       }
     }
-    
+
   }
   return matchingChips;
 }
 
-// function DrawCheck(connectFourBoard, moveRow, moveColumn, color) {
-//   const rowArray = connectFourBoard[moveRow];
+function columnFull(connectFourBoard, moveRow, moveColumn, color) {
+  let chips = 0;
 
-//   let matchingChips = 0;
+  for (row = moveRow + 1; row < connectFourBoard.length; row++) {
+    const rowArray = connectFourBoard[moveRow];
+    if (!rowArray.includes("white")) {
+      chips++;
+    }
+  }
 
-//   for (col = moveColumn + 1; col < rowArray.length; col++) {
-//     for (col = moveColumn - 1; col >= 0; col--) {
-//       if (rowArray[col] !== color) {
-//         break;
-//       } else {
-//         matchingChips++;
-//       }
-
-//     }
-//   }
-
-//   return matchingChips;
-// }
+  return chips;
+}
 
 function getMatchingChipsHorizontal(connectFourBoard, moveRow, moveColumn, color) {
   return getMatchingChipsLeft(connectFourBoard, moveRow, moveColumn, color) + getMatchingChipsRight(connectFourBoard, moveRow, moveColumn, color) + 1;
 }
 
+function getMatchingChipsVertical(connectFourBoard, moveRow, moveColumn, color) {
+  return getMatchingChipsDownward(connectFourBoard, moveRow, moveColumn, color) + 1;
+}
+
 function checkBoard(connectFourBoard, moveRow, moveColumn, color) {
-  const matchingDownward = getMatchingChipsDownward(connectFourBoard, moveRow, color);
+  const matchingDownward = getMatchingChipsDownward(connectFourBoard, moveRow, moveColumn, color);
   const matchingToLeft = getMatchingChipsLeft(connectFourBoard, moveRow, moveColumn, color);
   const matchingToRight = getMatchingChipsRight(connectFourBoard, moveRow, moveColumn, color);
   const matchingHorizontal = getMatchingChipsHorizontal(connectFourBoard, moveRow, moveColumn, color);
+  const matchingVertical = getMatchingChipsVertical(connectFourBoard, moveRow, moveColumn, color);
   const matchingDiagonalLeftUp = getMatchingChipsDiagonalLeftUp(connectFourBoard, moveRow, moveColumn, color);
   const matchingDiagonalRightUp = getMatchingChipsDiagonalRightUp(connectFourBoard, moveRow, moveColumn, color);
-  // const fullColumn = columnFull(connectFourBoard, moveRow, moveColumn, color);
-  // const drawCheck = DrawCheck(connectFourBoard, moveRow, moveColumn, color);
+  const fullColumn = columnFull(connectFourBoard, moveRow, moveColumn, color);
   console.log(`Checking below ${moveRow}`);
   console.log(`Checking left of ${moveColumn}`);
   console.log(`Checking right of ${moveColumn}`);
@@ -391,9 +333,11 @@ function checkBoard(connectFourBoard, moveRow, moveColumn, color) {
   console.log(`${matchingToRight} ${color} Chips found to the right`);
   console.log(`${matchingDiagonalLeftUp} ${color} Chips found diagonally up to the left of`);
   console.log(`${matchingDiagonalRightUp} ${color} Chips found diagonally up to the right of`);
-  console.log(`${matchingHorizontal} ${color} Chips found`);
+  console.log(`${matchingVertical} ${color} Chips found vertically`);
+  console.log(`${matchingHorizontal} ${color} Chips found horizontally`);
+  console.log(`${fullColumn} chips found in ${moveColumn}`);
 
-  if (matchingHorizontal === 4 || matchingDownward === 4 || matchingDiagonalLeftUp === 4) {
+  if (matchingHorizontal === 4 || matchingVertical === 4) {
     if (color === "red") {
       alert(`${player1} wins!`);
     }
@@ -402,8 +346,30 @@ function checkBoard(connectFourBoard, moveRow, moveColumn, color) {
 
     }
   }
+
+  if (isBoardFull()) {
+    alert("It is a draw!")
+  }
+
+  if (fullColumn === 6) {
+    alert("Column is full!");
+  }
 }
 
+function isBoardFull(connectFourBoard, moveRow, moveColumn) {
+  let chips = 0;
+
+  console.table(connectFourBoard);
+
+  for (row = moveRow - 1; row <= 0; row--) {
+    for (col = moveColumn - 1; col <= 0; col--) {
+      if (!connectFourBoard[row][col].includes("white")) {
+        chips++;
+      }
+    }
+  }
+  return chips;
+}
 
 // isBoardFull()
 // Loop through every row, column for an empty space
@@ -431,7 +397,7 @@ function createBoard() {
   }
   boardContainer.appendChild(table);
 
-  
+
   const backBtn = document.createElement("button");
   backBtn.classList.add("back-to-menu");
   boardContainer.appendChild(backBtn);
@@ -447,12 +413,18 @@ function createBoard() {
 
   let tableData = document.getElementsByTagName("td");
 
+
   Array.prototype.forEach.call(tableData, (cell) => {
+    // cell.addEventListener("click", (event) => { dropChip(event.target.cellIndex) });
     cell.addEventListener("click", dropChip);
     cell.style.backgroundColor = "white";
-  });
-}
+  })
 
+  // if (isCPUOpponent === true) {
+  //   console.log("test");
+  //   CPUDropChip();
+  // }
+}
 
 function dropChip(event) {
   let cellClicked = event.target.cellIndex;
@@ -473,7 +445,7 @@ function dropChip(event) {
         row[0].style.backgroundColor = "red";
         checkBoard(getBoard(), droppedRow, cellClicked, "red");
         displayCurrentPlayer.innerText = `${player2}\'s turn`;
-        
+
         return activePlayer = players[2];
       } else {
         row[0].style.backgroundColor = "yellow";
@@ -483,6 +455,80 @@ function dropChip(event) {
       }
     }
   }
+
+  // function dropChip(cellClicked) {
+  // let cellClicked = event.target.cellIndex;
+
+  //   let droppedRow = -1;
+
+  //   let row = [];
+  //   const tableRow = document.getElementsByTagName("tr");
+  //   for (i = 5; i > -1; i--) {
+
+  //     // console.log(style);
+  //     if (tableRow[i].children[cellClicked].style.backgroundColor === "white") {
+  //       droppedRow = i;
+  //       row.push(tableRow[i].children[cellClicked]);
+  //       playerTurn(row, droppedRow, cellClicked);
+  //     }
+  //   }
+  // }
+
+  // CPU Functionality
+
+  // Play chip on random open slots
+  // Find any column that's available
+
+  // function getRandomSlot(randomColumn) {
+  // const tableRow = document.getElementsByTagName("tr");
+  // let row = [];
+  // let droppedRow = -1;
+  // const randomRow = Math.floor(Math.random() * 6);
+  // if (randomRow[i].children[randomColumn].style.backgroundColor === "white") {
+  //   droppedRow = i;
+  //   row.push(randomRow[i].children[randomColumn]);
+  //   playerTurn(row, droppedRow, randomColumn);
+  // }
+  // const randomColumn = Math.floor(Math.random() * 7);
+  // return { row: randomRow, column: randomColumn };
+  // }
+
+  // function CPUDropChip() {
+  // const rowArray = connectFourBoard[moveRow];
+  // getRandomSlot();
+  // dropChip(getRandomSlot);
+
+  // }
+
+  // Extract all logic related to changing turn to its own function. In dropChip function execute player change function at the end.
+
+  // at the end of player turn ended function if the next player is cpu run cpu drop chip
+
+  // Extract player transition
+
+  // function playerTurn(row, droppedRow, cellClicked) {
+  //   console.log();
+  //   if (activePlayer === players[0]) {
+  //     console.log(activePlayer);
+  //     row[0].style.backgroundColor = "red";
+  //     checkBoard(getBoard(), droppedRow, cellClicked, "red");
+  //     displayCurrentPlayer.innerText = `${player1}\'s turn`;
+
+  //     activePlayer = players[1];
+  //   } else {
+  //     row[0].style.backgroundColor = "yellow";
+  //     checkBoard(getBoard(), droppedRow, cellClicked, "yellow");
+  //     console.log(players[0]);
+  //     displayCurrentPlayer.innerText = `${CPU}\'s turn`;
+  //     activePlayer = players[0];
+  //   }
+
+  //   // Check if active player is CPU
+  //   if (activePlayer === "Computer") {
+  //     console.log("Computer displayed.");
+  //     CPUDropChip();
+  //   }
+  //
 }
 
 function restartGame() {
